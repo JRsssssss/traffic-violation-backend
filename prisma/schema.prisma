@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  name      String
+  username  String @unique
+  password  String
+  role      String
+  
+  violations Violation[] // One officer can record multiple violations
+  tickets    Ticket[]    // One officer can issue multiple tickets
+  reports    Report[]    // One officer can write multiple reports
+}
+
+model Violation {
+  id         Int    @id @default(autoincrement())
+  date       DateTime
+  plate      String
+  type       String
+  location   String
+  flagged    String
+
+  // Foreign Key
+  officerId  Int?
+  officer    User? @relation(fields: [officerId], references: [id])
+}
+
+model Ticket {
+  id           Int    @id @default(autoincrement())
+
+  // Foreign Keys
+  violationId  Int    @unique
+  officerId    Int
+
+  // Relations
+  officer      User      @relation(fields: [officerId], references: [id])
+}
+
+model Report {
+  id           Int      @id @default(autoincrement())
+
+  // Foreign Keys
+  violationId  Int
+  officerId    Int
+
+  // Relations
+  officer      User      @relation(fields: [officerId], references: [id])
+}

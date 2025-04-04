@@ -1,0 +1,14 @@
+{
+    "entryFile": "src/index.ts",
+    "controllerPathGlobs": ["src/controllers/*.ts"],
+    "spec": {
+      "outputDirectory": "src",
+      "outputFileName": "openapi.yaml",
+      "specVersion": 3,
+      "outputFormat": "yaml"
+    },
+    "routes": {
+      "routesDir": "src/routes"
+    }
+  }
+  
