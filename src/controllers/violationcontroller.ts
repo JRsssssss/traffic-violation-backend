@@ -1,4 +1,4 @@
-import { Controller, Get, Route, Post, Body, Put } from "tsoa";
+import { Controller, Get, Route, Post, Body, Put, Delete } from "tsoa";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -75,6 +75,27 @@ export class ViolationController extends Controller {
             return { error: "An error occurred while updating the violation" };
         }
       }
+      
+    @Delete("/deleteViolation")
+        public async deleteViolation(@Body() request:{id: number}){
+            const {id} = request;
+            try {
+                const existingViolation = await prisma.violation.findUnique({ where: { id: id } });
+            
+                if (!existingViolation) {
+                  this.setStatus(404);
+                  return { error: "Violaiton not found" };
+                }
+            
+                await prisma.violation.delete({ where: { id: id } });
+            
+                return { message: "Violation deleted successfully" };
+              } catch (error) {
+                this.setStatus(500);
+                return { error: "An error occurred while deleting the violaiton" };
+              }
+    
+        }
 }
 
 
