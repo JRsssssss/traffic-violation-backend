@@ -165,6 +165,78 @@
 				}
 			}
 		},
+		"/Violation/updateViolationById": {
+			"put": {
+				"operationId": "UpdateUserById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"violation": {}
+											},
+											"required": [
+												"violation"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"error": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"error"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"location": {
+										"type": "string"
+									},
+									"type": {
+										"type": "string"
+									},
+									"plate": {
+										"type": "string"
+									},
+									"date": {
+										"type": "string",
+										"format": "date-time"
+									},
+									"id": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"id"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/User/allusers": {
 			"get": {
 				"operationId": "GetAllUsers",

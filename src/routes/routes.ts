@@ -92,6 +92,36 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsViolationController_updateUserById: Record<string, TsoaRoute.ParameterSchema> = {
+                request: {"in":"body","name":"request","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"location":{"dataType":"string"},"type":{"dataType":"string"},"plate":{"dataType":"string"},"date":{"dataType":"datetime"},"id":{"dataType":"double","required":true}}},
+        };
+        app.put('/Violation/updateViolationById',
+            ...(fetchMiddlewares<RequestHandler>(ViolationController)),
+            ...(fetchMiddlewares<RequestHandler>(ViolationController.prototype.updateUserById)),
+
+            async function ViolationController_updateUserById(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsViolationController_updateUserById, request, response });
+
+                const controller = new ViolationController();
+
+              await templateService.apiHandler({
+                methodName: 'updateUserById',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_getAllUsers: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/User/allusers',
