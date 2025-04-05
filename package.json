@@ -16,5 +16,12 @@
     "prisma": "^6.5.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
+  },
+  "scripts": {
+    "tsoa": "tsoa spec-and-routes",
+    "build": "npm run tsoa && tsc",
+    "start": "node build/index.js",
+    "dev": "ts-node src/index.ts"
   }
+
 }
