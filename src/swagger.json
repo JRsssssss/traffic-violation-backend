@@ -802,7 +802,10 @@
 	},
 	"servers": [
 		{
-			"url": "/"
+			"url": "https://[object Object]/"
+		},
+		{
+			"url": "https://[object Object]/"
 		}
 	]
 }
