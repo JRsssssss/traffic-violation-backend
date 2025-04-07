@@ -6,16 +6,18 @@
       "outputFileName": "openapi.yaml",
       "specVersion": 3,
       "outputFormat": "yaml",
-      "servers": [
-      {
-        "url": "http://localhost:5000",
-        "description": "Local development server"
-      },
-      {
-        "url": "https://traffic-violation-backend.onrender.com",
-        "description": "Production server"
-      }
-    ]
+      "spec": {
+        "servers": [
+            {
+            "url": "http://localhost:5000",
+            "description": "Local development server"
+            },
+            {
+            "url": "https://traffic-violation-backend.onrender.com",
+            "description": "Production server"
+            }
+        ]
+        }
     },
     "routes": {
       "routesDir": "src/routes"

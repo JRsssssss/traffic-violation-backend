@@ -9,6 +9,8 @@ import { ViolationController } from './../controllers/violationcontroller';
 import { UserController } from './../controllers/usercontroller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { TestController } from './../controllers/test';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { ReportController } from './../controllers/reportcontroller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
@@ -111,36 +113,6 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'updateUserById',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsViolationController_deleteViolation: Record<string, TsoaRoute.ParameterSchema> = {
-                request: {"in":"body","name":"request","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},
-        };
-        app.delete('/Violation/deleteViolation',
-            ...(fetchMiddlewares<RequestHandler>(ViolationController)),
-            ...(fetchMiddlewares<RequestHandler>(ViolationController.prototype.deleteViolation)),
-
-            async function ViolationController_deleteViolation(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsViolationController_deleteViolation, request, response });
-
-                const controller = new ViolationController();
-
-              await templateService.apiHandler({
-                methodName: 'deleteViolation',
                 controller,
                 response,
                 next,
@@ -349,6 +321,66 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'sayHello',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsReportController_createReport: Record<string, TsoaRoute.ParameterSchema> = {
+                request: {"in":"body","name":"request","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"includeViolationType":{"dataType":"boolean","required":true},"includePlate":{"dataType":"boolean","required":true},"officerId":{"dataType":"double","required":true},"violationId":{"dataType":"double","required":true},"status":{"dataType":"string","required":true},"content":{"dataType":"string","required":true}}},
+        };
+        app.post('/Report/createReport',
+            ...(fetchMiddlewares<RequestHandler>(ReportController)),
+            ...(fetchMiddlewares<RequestHandler>(ReportController.prototype.createReport)),
+
+            async function ReportController_createReport(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsReportController_createReport, request, response });
+
+                const controller = new ReportController();
+
+              await templateService.apiHandler({
+                methodName: 'createReport',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsReportController_getReportById: Record<string, TsoaRoute.ParameterSchema> = {
+                request: {"in":"body","name":"request","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},
+        };
+        app.post('/Report/getReportById',
+            ...(fetchMiddlewares<RequestHandler>(ReportController)),
+            ...(fetchMiddlewares<RequestHandler>(ReportController.prototype.getReportById)),
+
+            async function ReportController_getReportById(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsReportController_getReportById, request, response });
+
+                const controller = new ReportController();
+
+              await templateService.apiHandler({
+                methodName: 'getReportById',
                 controller,
                 response,
                 next,

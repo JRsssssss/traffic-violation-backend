@@ -30,6 +30,8 @@ model Violation {
   // Foreign Key
   officerId  Int?
   officer    User? @relation(fields: [officerId], references: [id])
+
+  report     Report?   @relation("ViolationReport")
 }
 
 model Ticket {
@@ -46,10 +48,17 @@ model Ticket {
 model Report {
   id           Int      @id @default(autoincrement())
 
+  content      String   // Description of the report
+  status       String   // Report status (e.g., 'Awaiting Review', 'Resolved', 'Dismissed')
+  dateCreated  DateTime @default(now())
+  includePlate         Boolean @default(false)
+  includeViolationType Boolean @default(false)
+
   // Foreign Keys
-  violationId  Int
+  violationId  Int      @unique
   officerId    Int
 
   // Relations
   officer      User      @relation(fields: [officerId], references: [id])
+  violation    Violation @relation("ViolationReport", fields: [violationId], references: [id])
 }

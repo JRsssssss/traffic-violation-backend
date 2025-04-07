@@ -237,69 +237,6 @@
 				}
 			}
 		},
-		"/Violation/deleteViolation": {
-			"delete": {
-				"operationId": "DeleteViolation",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"message": {},
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {},
-												"message": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"message"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"id": {
-										"type": "number",
-										"format": "double"
-									}
-								},
-								"required": [
-									"id"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
 		"/User/allusers": {
 			"get": {
 				"operationId": "GetAllUsers",
@@ -798,14 +735,242 @@
 				"security": [],
 				"parameters": []
 			}
+		},
+		"/Report/createReport": {
+			"post": {
+				"operationId": "CreateReport",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"report": {
+													"properties": {
+														"includeViolationType": {
+															"type": "boolean"
+														},
+														"includePlate": {
+															"type": "boolean"
+														},
+														"violationId": {
+															"type": "number",
+															"format": "double"
+														},
+														"officerId": {
+															"type": "number",
+															"format": "double"
+														},
+														"dateCreated": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"status": {
+															"type": "string"
+														},
+														"content": {
+															"type": "string"
+														},
+														"id": {
+															"type": "number",
+															"format": "double"
+														}
+													},
+													"required": [
+														"includeViolationType",
+														"includePlate",
+														"violationId",
+														"officerId",
+														"dateCreated",
+														"status",
+														"content",
+														"id"
+													],
+													"type": "object"
+												}
+											},
+											"required": [
+												"report"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"error": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"error"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"includeViolationType": {
+										"type": "boolean"
+									},
+									"includePlate": {
+										"type": "boolean"
+									},
+									"officerId": {
+										"type": "number",
+										"format": "double"
+									},
+									"violationId": {
+										"type": "number",
+										"format": "double"
+									},
+									"status": {
+										"type": "string"
+									},
+									"content": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"includeViolationType",
+									"includePlate",
+									"officerId",
+									"violationId",
+									"status",
+									"content"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/Report/getReportById": {
+			"post": {
+				"operationId": "GetReportById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"reports": {
+													"items": {
+														"properties": {
+															"includeViolationType": {
+																"type": "boolean"
+															},
+															"includePlate": {
+																"type": "boolean"
+															},
+															"violationId": {
+																"type": "number",
+																"format": "double"
+															},
+															"officerId": {
+																"type": "number",
+																"format": "double"
+															},
+															"dateCreated": {
+																"type": "string",
+																"format": "date-time"
+															},
+															"status": {
+																"type": "string"
+															},
+															"content": {
+																"type": "string"
+															},
+															"id": {
+																"type": "number",
+																"format": "double"
+															}
+														},
+														"required": [
+															"includeViolationType",
+															"includePlate",
+															"violationId",
+															"officerId",
+															"dateCreated",
+															"status",
+															"content",
+															"id"
+														],
+														"type": "object"
+													},
+													"type": "array"
+												}
+											},
+											"required": [
+												"reports"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"error": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"error"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"id": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"id"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"servers": [
 		{
-			"url": "https://[object Object]/"
+			"url": "http://localhost:5000",
+			"description": "Local development server"
 		},
 		{
-			"url": "https://[object Object]/"
+			"url": "https://traffic-violation-backend.onrender.com",
+			"description": "Production server"
 		}
 	]
 }

@@ -9,10 +9,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Load YAML OpenAPI spec
-const swaggerFile = fs.readFileSync("./src/swagger.json", "utf8");
-const swaggerDocument = yaml.parse(swaggerFile);
-
+const swaggerDocument = JSON.parse(fs.readFileSync("./src/swagger.json", "utf8"));
+console.log(swaggerDocument.servers)
 // Serve Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

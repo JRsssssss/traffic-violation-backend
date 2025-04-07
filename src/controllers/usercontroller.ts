@@ -81,23 +81,30 @@ export class UserController extends Controller {
             return { error: "Username already exists" };
         }
 
-        const newUser = await prisma.user.create({
-            data: {
-            name,
-            username,
-            password,
-            role,
-            },
-        });
-
-        return {
-            user: {
-            id: newUser.id,
-            name: newUser.name,
-            username: newUser.username,
-            role: newUser.role,
-            },
-        };
+        try {
+            const newUser = await prisma.user.create({
+                data: {
+                name,
+                username,
+                password,
+                role,
+                },
+            });
+    
+            return {
+                user: {
+                id: newUser.id,
+                name: newUser.name,
+                username: newUser.username,
+                role: newUser.role,
+                },
+            };
+        } catch (error) {
+            console.error("Error creating user:", error);
+            this.setStatus(500);
+            return { error: "Internal server error" };
+        }
+        
     }
 
     @Put("/updateUserById")
