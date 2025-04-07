@@ -107,26 +107,26 @@ export class ViolationController extends Controller {
     }
   }
 
-  // @Delete("/deleteViolation")
-  // public async deleteViolation(@Body() request:{id: number}){
-  //     const {id} = request;
-  //     try {
-  //         const existingViolation = await prisma.violation.findUnique({ where: { id: id } });
+  @Delete("/deleteViolation")
+  public async deleteViolation(@Body() request:{id: number}){
+      const {id} = request;
+      try {
+          const existingViolation = await prisma.violation.findUnique({ where: { id: id } });
 
-  //         if (!existingViolation) {
-  //             this.setStatus(404);
-  //             return { error: "Violaiton not found" };
-  //         }
+          if (!existingViolation) {
+              this.setStatus(404);
+              return { error: "Violaiton not found" };
+          }
 
-  //         await prisma.violation.delete({ where: { id: id } });
+          await prisma.violation.delete({ where: { id: id } });
 
-  //         return { message: "Violation deleted successfully" };
-  //         } catch (error) {
-  //         this.setStatus(500);
-  //         return { error: "An error occurred while deleting the violaiton" };
-  //         }
+          return { message: "Violation deleted successfully" };
+          } catch (error) {
+          this.setStatus(500);
+          return { error: "An error occurred while deleting the violaiton" };
+          }
 
-  // }
+  }
 
   @Post("/addNewViolation")
   public async addNewViolation(

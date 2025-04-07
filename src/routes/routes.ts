@@ -124,6 +124,66 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsViolationController_deleteViolation: Record<string, TsoaRoute.ParameterSchema> = {
+                request: {"in":"body","name":"request","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},
+        };
+        app.delete('/Violation/deleteViolation',
+            ...(fetchMiddlewares<RequestHandler>(ViolationController)),
+            ...(fetchMiddlewares<RequestHandler>(ViolationController.prototype.deleteViolation)),
+
+            async function ViolationController_deleteViolation(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsViolationController_deleteViolation, request, response });
+
+                const controller = new ViolationController();
+
+              await templateService.apiHandler({
+                methodName: 'deleteViolation',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsViolationController_addNewViolation: Record<string, TsoaRoute.ParameterSchema> = {
+                request: {"in":"body","name":"request","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"location":{"dataType":"string","required":true},"type":{"dataType":"string","required":true},"plate":{"dataType":"string","required":true},"date":{"dataType":"datetime","required":true}}},
+        };
+        app.post('/Violation/addNewViolation',
+            ...(fetchMiddlewares<RequestHandler>(ViolationController)),
+            ...(fetchMiddlewares<RequestHandler>(ViolationController.prototype.addNewViolation)),
+
+            async function ViolationController_addNewViolation(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsViolationController_addNewViolation, request, response });
+
+                const controller = new ViolationController();
+
+              await templateService.apiHandler({
+                methodName: 'addNewViolation',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_getAllUsers: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/User/allusers',
