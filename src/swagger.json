@@ -319,6 +319,9 @@
 															"type": "number",
 															"format": "double"
 														},
+														"province": {
+															"type": "string"
+														},
 														"flagged": {
 															"type": "string"
 														},
@@ -342,6 +345,7 @@
 													},
 													"required": [
 														"officerId",
+														"province",
 														"flagged",
 														"location",
 														"type",
@@ -388,6 +392,15 @@
 						"application/json": {
 							"schema": {
 								"properties": {
+									"province": {
+										"type": "string"
+									},
+									"imageUrl": {
+										"items": {
+											"type": "string"
+										},
+										"type": "array"
+									},
 									"location": {
 										"type": "string"
 									},
@@ -403,6 +416,8 @@
 									}
 								},
 								"required": [
+									"province",
+									"imageUrl",
 									"location",
 									"type",
 									"plate",
@@ -1315,6 +1330,114 @@
 						"application/json": {
 							"schema": {
 								"properties": {
+									"id": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"id"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/Report/updateReportById": {
+			"put": {
+				"operationId": "UpdateReportById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"report": {
+													"properties": {
+														"officerName": {
+															"type": "string"
+														},
+														"includeViolationType": {
+															"type": "boolean"
+														},
+														"includePlate": {
+															"type": "boolean"
+														},
+														"violationId": {
+															"type": "number",
+															"format": "double"
+														},
+														"officerId": {
+															"type": "number",
+															"format": "double"
+														},
+														"dateCreated": {
+															"type": "string",
+															"format": "date-time"
+														},
+														"status": {
+															"type": "string"
+														},
+														"content": {
+															"type": "string"
+														},
+														"id": {
+															"type": "number",
+															"format": "double"
+														}
+													},
+													"required": [
+														"officerName",
+														"includeViolationType",
+														"includePlate",
+														"violationId",
+														"officerId",
+														"dateCreated",
+														"status",
+														"content",
+														"id"
+													],
+													"type": "object"
+												}
+											},
+											"required": [
+												"report"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"error": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"error"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"status": {
+										"type": "string"
+									},
 									"id": {
 										"type": "number",
 										"format": "double"

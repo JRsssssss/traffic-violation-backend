@@ -155,7 +155,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsViolationController_addNewViolation: Record<string, TsoaRoute.ParameterSchema> = {
-                request: {"in":"body","name":"request","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"location":{"dataType":"string","required":true},"type":{"dataType":"string","required":true},"plate":{"dataType":"string","required":true},"date":{"dataType":"datetime","required":true}}},
+                request: {"in":"body","name":"request","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"province":{"dataType":"string","required":true},"imageUrl":{"dataType":"array","array":{"dataType":"string"},"required":true},"location":{"dataType":"string","required":true},"type":{"dataType":"string","required":true},"plate":{"dataType":"string","required":true},"date":{"dataType":"datetime","required":true}}},
         };
         app.post('/Violation/addNewViolation',
             ...(fetchMiddlewares<RequestHandler>(ViolationController)),
@@ -500,6 +500,36 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getReportById',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsReportController_updateReportById: Record<string, TsoaRoute.ParameterSchema> = {
+                request: {"in":"body","name":"request","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"status":{"dataType":"string"},"id":{"dataType":"double","required":true}}},
+        };
+        app.put('/Report/updateReportById',
+            ...(fetchMiddlewares<RequestHandler>(ReportController)),
+            ...(fetchMiddlewares<RequestHandler>(ReportController.prototype.updateReportById)),
+
+            async function ReportController_updateReportById(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsReportController_updateReportById, request, response });
+
+                const controller = new ReportController();
+
+              await templateService.apiHandler({
+                methodName: 'updateReportById',
                 controller,
                 response,
                 next,
