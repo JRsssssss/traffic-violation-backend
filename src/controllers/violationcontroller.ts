@@ -31,9 +31,7 @@ export class ViolationController extends Controller {
   }
 
   @Post("/violationById")
-  public async getViolationsById(
-    @Body() request: { id: number }
-  ): Promise<
+  public async getViolationsById(@Body() request: { id: number }): Promise<
     | {
         violation: {
           id: number;
@@ -136,6 +134,7 @@ export class ViolationController extends Controller {
       plate: string;
       type: string;
       location: string;
+      imageUrl: Array<string>;
     }
   ) {
     try {
