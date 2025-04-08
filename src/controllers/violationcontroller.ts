@@ -122,6 +122,7 @@ export class ViolationController extends Controller {
 
       return { message: "Violation deleted successfully" };
     } catch (error) {
+      console.log(error);
       this.setStatus(500);
       return { error: "An error occurred while deleting the violaiton" };
     }

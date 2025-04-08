@@ -50,5 +50,5 @@ model Report {
 
   // Relations
   officer      User      @relation(fields: [officerId], references: [id])
-  violation    Violation @relation("ViolationReport", fields: [violationId], references: [id])
+  violation    Violation @relation("ViolationReport", fields: [violationId], references: [id], onDelete: Cascade)
 }

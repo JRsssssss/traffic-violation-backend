@@ -319,6 +319,12 @@
 															"type": "number",
 															"format": "double"
 														},
+														"imageUrl": {
+															"items": {
+																"type": "string"
+															},
+															"type": "array"
+														},
 														"province": {
 															"type": "string"
 														},
@@ -345,6 +351,7 @@
 													},
 													"required": [
 														"officerId",
+														"imageUrl",
 														"province",
 														"flagged",
 														"location",
