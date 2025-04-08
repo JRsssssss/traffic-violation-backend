@@ -149,6 +149,8 @@ export class ViolationController extends Controller {
           flagged: "Awaiting Review",
         },
       });
+      console.log("New Violation Created");
+      console.log(newViolation);
 
       return {
         message: "Violation added successfully",
