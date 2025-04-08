@@ -18,7 +18,7 @@ export class ReportController extends Controller{
             return { error: "All fields are required" };
         }
 
-        const existingReport = await prisma.report.findUnique({ where: { violationId: violationId} });
+        const existingReport = await prisma.report.findFirst({ where: { violationId: violationId} });
         if (existingReport) {
             this.setStatus(409);
             return { error: "Report already exists" };
@@ -32,7 +32,7 @@ export class ReportController extends Controller{
             return { error: "Violation not found" };
         }
 
-        const officer = await prisma.user.findUnique({
+        const officer = await prisma.user.findFirst({
             where: { id: officerId , role: "Officer" },
         });
         if (!officer) {
