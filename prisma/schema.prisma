@@ -15,7 +15,6 @@ model User {
   role      String
   
   violations Violation[] // One officer can record multiple violations
-  tickets    Ticket[]    // One officer can issue multiple tickets
   reports    Report[]    // One officer can write multiple reports
 }
 
@@ -26,23 +25,13 @@ model Violation {
   type       String
   location   String
   flagged    String
+  province   String @default("Unknown")
 
   // Foreign Key
   officerId  Int?
   officer    User? @relation(fields: [officerId], references: [id])
 
   report     Report?   @relation("ViolationReport")
-}
-
-model Ticket {
-  id           Int    @id @default(autoincrement())
-
-  // Foreign Keys
-  violationId  Int    @unique
-  officerId    Int
-
-  // Relations
-  officer      User      @relation(fields: [officerId], references: [id])
 }
 
 model Report {

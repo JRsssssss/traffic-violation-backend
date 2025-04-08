@@ -68,9 +68,38 @@ export class ReportController extends Controller{
             return { error: "Internal server error" };
         }
     }
+    @Get("/getAllReports")
+    public async getAllReports(): 
+        Promise<{ reports: { id: number; content: string; status: string; dateCreated: Date, officerId: number; 
+                            violationId: number; includePlate: boolean; includeViolationType: boolean; }[] } | { error: string }> {
+
+        const reports = await prisma.report.findMany({
+            include: {
+                officer: {
+                    select: {
+                        username: true,
+                    }
+                }
+            }
+        });
     
-    @Post("/getReportById")
-    public async getReportById(@Body() request: { id: number }): 
+        const formattedReports = reports.map((r) => ({
+            id: r.id,
+            content: r.content,
+            status: r.status,
+            dateCreated: r.dateCreated,
+            officerId: r.officerId,
+            violationId: r.violationId,
+            includePlate: r.includePlate,
+            includeViolationType: r.includeViolationType,
+            officerName: r.officer?.username || "Unknown",
+        }));
+    
+        return { reports: formattedReports };
+    }
+
+    @Post("/getReportByOfficerId")
+    public async getReportByOfficerId(@Body() request: { id: number }): 
                                 Promise<{ reports: { id: number; content: string; status: string; dateCreated: Date, officerId: number; 
                                                     violationId: number; includePlate: boolean; includeViolationType: boolean; }[] } | { error: string }> {
         const { id } = request;
@@ -79,24 +108,113 @@ export class ReportController extends Controller{
             where: {
                 officerId: id,
             },
-            select: {
-                id: true,
-                content: true,
-                status: true,
-                dateCreated: true,
-                includePlate: true,
-                includeViolationType: true,
-                violationId: true,
-                officerId: true,
-            },
+            include: {
+                officer: {
+                    select: {
+                        username: true,
+                    }
+                }
+            }
         });
-
+    
         if (!reports || reports.length === 0) {
             this.setStatus(404);
             return { error: "No reports found for this officer" };
         }
     
-        return { reports };
+        const formattedReports = reports.map((r) => ({
+            id: r.id,
+            content: r.content,
+            status: r.status,
+            dateCreated: r.dateCreated,
+            officerId: r.officerId,
+            violationId: r.violationId,
+            includePlate: r.includePlate,
+            includeViolationType: r.includeViolationType,
+            officerName: r.officer?.username || "Unknown",
+        }));
+    
+        return { reports: formattedReports };
 
     }
+    @Post("/getReportById")
+    public async getReportById(@Body() request: { id: number }): 
+                                Promise<{ report: { id: number; content: string; status: string; dateCreated: Date, officerId: number; 
+                                                    violationId: number; includePlate: boolean; includeViolationType: boolean; officerName: string; } } | { error: string }> {
+        const { id } = request;
+
+        const report = await prisma.report.findUnique({
+            where: {
+                id: id,
+            },
+            include: {
+                officer: true,
+            },
+        });
+
+        if (!report) {
+            this.setStatus(404);
+            return { error: "No reports found for this officer" };
+        }
+
+        return {
+            report: {
+                id: report.id,
+                content: report.content,
+                status: report.status,
+                dateCreated: report.dateCreated,
+                officerId: report.officerId,
+                violationId: report.violationId,
+                includePlate: report.includePlate,
+                includeViolationType: report.includeViolationType,
+                officerName: report.officer.username,
+            },
+
+        }
+    }
+
+    @Put("/updateReportById")
+    public async updateReportById(@Body() request: { id: number; status?: string}): 
+                                    Promise<{ report: { id: number; content: string; status: string; dateCreated: Date, officerId: number; 
+                                                    violationId: number; includePlate: boolean; includeViolationType: boolean; officerName: string; } } | { error: string }> {
+
+        const { id, status } = request;
+
+        try {
+            const existingReport = await prisma.report.findUnique({ where: { id } });
+
+            if (!existingReport) {
+                this.setStatus(404);
+                return { error: "Reprot not found" };
+            }
+
+            const updatedReport = await prisma.report.update({
+            where: { id },
+                data: {
+                    status: status ?? existingReport.status,
+                },
+                include: {
+                    officer: true,
+                },
+            });
+
+            return {
+                report: {
+                  id: updatedReport.id,
+                  content: updatedReport.content,
+                  status: updatedReport.status,
+                  dateCreated: updatedReport.dateCreated,
+                  officerId: updatedReport.officerId,
+                  violationId: updatedReport.violationId,
+                  includePlate: updatedReport.includePlate,
+                  includeViolationType: updatedReport.includeViolationType,
+                  officerName: updatedReport.officer.username,
+                },
+              };
+        } catch (error) {
+            this.setStatus(500);
+            return { error: "An error occurred while updating the user" };
+        }
+    }
+
 }
