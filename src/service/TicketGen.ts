@@ -3,7 +3,7 @@ import fontkit from "@pdf-lib/fontkit";
 import fs from "fs-extra";
 import path from "path";
 import fetch from "node-fetch";
-import sharp from "sharp";
+
 export interface TicketData {
   plate_number: string;
   plate_province: string;
@@ -200,9 +200,6 @@ export class TicketGenerator {
         const response = await fetch(imagePath);
         const arrayBuffer = await response.arrayBuffer();
         imageBytes = new Uint8Array(arrayBuffer);
-
-        const pngBuffer = await sharp(imageBytes).toFormat("png").toBuffer();
-        imageBytes = new Uint8Array(pngBuffer);
       } else {
         const imageBuffer = await fs.readFile(imagePath);
         imageBytes = new Uint8Array(imageBuffer);
@@ -210,20 +207,29 @@ export class TicketGenerator {
 
       // Determine image type and embed accordingly
       let image;
-      if (imagePath.toLowerCase().endsWith(".png")) {
+      const lowercasePath = imagePath.toLowerCase();
+
+      if (lowercasePath.endsWith(".webp")) {
+        // For WEBP images, we need to convert them to PNG
+        // We'll use sharp for this, so make sure to install it:
+        // npm install sharp @types/sharp
+        try {
+          const sharp = require("sharp");
+          const pngBuffer = await sharp(imageBytes).png().toBuffer();
+          image = await pdfDoc.embedPng(new Uint8Array(pngBuffer));
+        } catch (conversionError: any) {
+          console.error("Error converting WEBP to PNG:", conversionError);
+          throw new Error(
+            `Failed to convert WEBP image: ${conversionError.message}`
+          );
+        }
+      } else if (lowercasePath.endsWith(".png")) {
         image = await pdfDoc.embedPng(imageBytes);
       } else if (
-        imagePath.toLowerCase().endsWith(".jpg") ||
-        imagePath.toLowerCase().endsWith(".jpeg")
+        lowercasePath.endsWith(".jpg") ||
+        lowercasePath.endsWith(".jpeg")
       ) {
         image = await pdfDoc.embedJpg(imageBytes);
-      } else if (imagePath.toLowerCase().endsWith(".webp")) {
-        // Convert WebP to PNG first
-        const webpBuffer = await fs.readFile(imagePath);
-        const webpBytes = new Uint8Array(webpBuffer);
-        const pngBuffer = await sharp(webpBytes).toFormat("png").toBuffer();
-        const pngBytes = new Uint8Array(pngBuffer);
-        image = await pdfDoc.embedPng(pngBytes);
       } else {
         throw new Error(`Unsupported image format: ${imagePath}`);
       }
