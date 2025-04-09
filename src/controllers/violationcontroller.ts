@@ -30,7 +30,7 @@ export class ViolationController extends Controller {
         type: v.type,
         location: v.location,
         flagged: v.flagged,
-        details: v.details,
+        details: "",
         imageUrl: v.imageUrl,
       })),
     };
