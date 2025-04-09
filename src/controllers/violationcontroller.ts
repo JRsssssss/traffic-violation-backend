@@ -117,17 +117,20 @@ export class ViolationController extends Controller {
       location: string;
       imageUrl: Array<string>;
       province: string;
+      details: string;
     }
   ) {
     try {
-      const { date, plate, type, location, imageUrl, province } = request;
+      const { date, plate, type, location, imageUrl, province, details } =
+        request;
       return await violationService.addNewViolation(
         date,
         plate,
         type,
         location,
         imageUrl,
-        province
+        province,
+        details
       );
     } catch (error) {
       console.log(error);

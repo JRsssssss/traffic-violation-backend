@@ -136,7 +136,8 @@ export class ViolationService {
     type: string,
     location: string,
     imageUrl: Array<string>,
-    province: string
+    province: string,
+    details: string
   ) {
     try {
       const newViolation = await prisma.violation.create({
@@ -147,6 +148,7 @@ export class ViolationService {
           location,
           imageUrl,
           province,
+          details,
         },
       });
 
