@@ -168,6 +168,9 @@ export class ViolationService {
     try {
       const violation = await prisma.violation.findUnique({
         where: { id: violationId },
+        include: {
+          officer: true,
+        },
       });
 
       if (!violation) {
@@ -182,10 +185,10 @@ export class ViolationService {
         kor_har: violation.type,
         place: violation.location,
         violation_datetime: violation.date,
-        violation_detail: "DETAIL HERE",
+        violation_detail: violation.details,
         ticket_number: violation.id.toString(),
         fine: "500",
-        issuer: "สถานีตำรวจที่ตรวจพบ",
+        issuer: violation.officer?.name || "Unknown Officer",
         issue_datetime: currentDate,
         evidence_1_path: violation.imageUrl[0] ?? undefined,
         evidence_2_path: violation.imageUrl[1] ?? undefined,
