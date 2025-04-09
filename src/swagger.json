@@ -36,9 +36,6 @@
 													"details": {
 														"type": "string"
 													},
-													"flagged": {
-														"type": "string"
-													},
 													"location": {
 														"type": "string"
 													},
@@ -60,7 +57,6 @@
 												"required": [
 													"imageUrl",
 													"details",
-													"flagged",
 													"location",
 													"type",
 													"plate",
@@ -108,9 +104,6 @@
 														"details": {
 															"type": "string"
 														},
-														"flagged": {
-															"type": "string"
-														},
 														"location": {
 															"type": "string"
 														},
@@ -132,7 +125,6 @@
 													"required": [
 														"imageUrl",
 														"details",
-														"flagged",
 														"location",
 														"type",
 														"plate",
@@ -353,9 +345,6 @@
 														"province": {
 															"type": "string"
 														},
-														"flagged": {
-															"type": "string"
-														},
 														"location": {
 															"type": "string"
 														},
@@ -379,7 +368,6 @@
 														"imageUrl",
 														"details",
 														"province",
-														"flagged",
 														"location",
 														"type",
 														"plate",

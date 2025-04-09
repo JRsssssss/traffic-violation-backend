@@ -24,7 +24,6 @@ model Violation {
   plate      String
   type       String
   location   String
-  flagged    String
   province   String @default("Unknown")
   details    String @default("-")
   imageUrl   String[]

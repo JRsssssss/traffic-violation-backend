@@ -13,7 +13,6 @@ export class ViolationController extends Controller {
       plate: string;
       type: string;
       location: string;
-      flagged: string;
       details: string;
       imageUrl: string[];
     }[];
@@ -27,7 +26,6 @@ export class ViolationController extends Controller {
         plate: v.plate,
         type: v.type,
         location: v.location,
-        flagged: v.flagged,
         details: v.details,
         imageUrl: v.imageUrl,
       })),
@@ -43,7 +41,6 @@ export class ViolationController extends Controller {
           plate: string;
           type: string;
           location: string;
-          flagged: string;
           details: string;
           imageUrl: string[];
         };
@@ -67,7 +64,6 @@ export class ViolationController extends Controller {
         plate: violation.plate,
         type: violation.type,
         location: violation.location,
-        flagged: violation.flagged,
         details: violation.details,
         imageUrl: violation.imageUrl,
       },
@@ -156,7 +152,6 @@ export class ViolationController extends Controller {
           type: request.type,
           location: request.location,
           imageUrl: request.imageUrl,
-          flagged: "Awaiting Review",
         },
       });
       console.log("New Violation Created");
