@@ -339,6 +339,9 @@
 															},
 															"type": "array"
 														},
+														"details": {
+															"type": "string"
+														},
 														"province": {
 															"type": "string"
 														},
@@ -363,6 +366,7 @@
 													"required": [
 														"officerId",
 														"imageUrl",
+														"details",
 														"province",
 														"location",
 														"type",
