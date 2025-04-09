@@ -69,6 +69,15 @@ export class TicketGenerator {
     }
   }
 
+  //   as byte
+  public async generateTicketAsBytes(
+    data: TicketData,
+    templatePath: string
+  ): Promise<Uint8Array> {
+    const pdfBytes = await this.generateTicketInternal(data, templatePath);
+    return pdfBytes;
+  }
+
   /**
    * Internal method that handles the actual PDF generation logic
    * @param data The ticket data

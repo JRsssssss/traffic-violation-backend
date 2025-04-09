@@ -188,10 +188,11 @@ export class ViolationService {
       };
 
       const ticketGenerator = new TicketGenerator();
-      return await ticketGenerator.generateTicketAsBuffer(
+      const pdfBytes = await ticketGenerator.generateTicketAsBytes(
         ticketData,
         path.join(__dirname, "../assets/ticket_template.pdf")
       );
+      return Buffer.from(pdfBytes);
     } catch (error) {
       console.error("Error generating ticket:", error);
       return { error: "Error generating ticket" };
