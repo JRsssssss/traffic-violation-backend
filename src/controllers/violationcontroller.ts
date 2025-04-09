@@ -9,6 +9,7 @@ import {
   Query,
   Tags,
   Security,
+  Res,
 } from "tsoa";
 import { ViolationService } from "../service/violationService";
 
@@ -136,7 +137,10 @@ export class ViolationController extends Controller {
   @Get("/getTicketFromViolation")
   @Tags("Officer", "Administrator")
   @Security("jwt", ["Officer", "Administrator"])
-  public async getTicketFromViolation(@Query() violationId: number) {
+  public async getTicketFromViolation(
+    @Query() violationId: number,
+    @Res() res: any
+  ) {
     const ticketResult = await violationService.getTicketFromViolation(
       violationId
     );
@@ -146,15 +150,15 @@ export class ViolationController extends Controller {
       return ticketResult;
     }
 
-    console.log(ticketResult);
-    console.log(ticketResult.length);
-
     // Set headers to make browser download the PDF file
-    this.setHeader("Content-Type", "application/pdf");
-    this.setHeader("Content-Disposition", 'attachment; filename="ticket.pdf"');
-    this.setHeader("Content-Length", ticketResult.length.toString());
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", 'attachment; filename="ticket.pdf"');
+    res.setHeader("Content-Length", ticketResult.length);
 
-    // Return the raw buffer directly
-    return ticketResult;
+    // Send the binary data directly using res.end
+    res.end(ticketResult);
+
+    // Return a partial response to prevent TSOA from trying to serialize the response
+    return new Promise<void>(() => {});
   }
 }
