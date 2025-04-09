@@ -26,6 +26,7 @@ model Violation {
   location   String
   flagged    String
   province   String @default("Unknown")
+  details    String @default("-")
   imageUrl   String[]
 
   // Foreign Key

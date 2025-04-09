@@ -14,6 +14,7 @@ export class ViolationController extends Controller {
       type: string;
       location: string;
       flagged: string;
+      details: string;
       imageUrl: string[];
     }[];
   }> {
@@ -27,6 +28,7 @@ export class ViolationController extends Controller {
         type: v.type,
         location: v.location,
         flagged: v.flagged,
+        details: v.details,
         imageUrl: v.imageUrl,
       })),
     };
@@ -42,6 +44,7 @@ export class ViolationController extends Controller {
           type: string;
           location: string;
           flagged: string;
+          details: string;
           imageUrl: string[];
         };
       }
@@ -65,6 +68,7 @@ export class ViolationController extends Controller {
         type: violation.type,
         location: violation.location,
         flagged: violation.flagged,
+        details: violation.details,
         imageUrl: violation.imageUrl,
       },
     };

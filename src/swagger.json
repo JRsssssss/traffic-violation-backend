@@ -27,6 +27,15 @@
 										"violations": {
 											"items": {
 												"properties": {
+													"imageUrl": {
+														"items": {
+															"type": "string"
+														},
+														"type": "array"
+													},
+													"details": {
+														"type": "string"
+													},
 													"flagged": {
 														"type": "string"
 													},
@@ -49,6 +58,8 @@
 													}
 												},
 												"required": [
+													"imageUrl",
+													"details",
 													"flagged",
 													"location",
 													"type",
@@ -88,6 +99,15 @@
 											"properties": {
 												"violation": {
 													"properties": {
+														"imageUrl": {
+															"items": {
+																"type": "string"
+															},
+															"type": "array"
+														},
+														"details": {
+															"type": "string"
+														},
 														"flagged": {
 															"type": "string"
 														},
@@ -110,6 +130,8 @@
 														}
 													},
 													"required": [
+														"imageUrl",
+														"details",
 														"flagged",
 														"location",
 														"type",
@@ -325,6 +347,9 @@
 															},
 															"type": "array"
 														},
+														"details": {
+															"type": "string"
+														},
 														"province": {
 															"type": "string"
 														},
@@ -352,6 +377,7 @@
 													"required": [
 														"officerId",
 														"imageUrl",
+														"details",
 														"province",
 														"flagged",
 														"location",
