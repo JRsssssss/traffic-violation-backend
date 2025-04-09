@@ -146,6 +146,9 @@ export class ViolationController extends Controller {
       return ticketResult;
     }
 
+    console.log(ticketResult);
+    console.log(ticketResult.length);
+
     // Set headers to make browser download the PDF file
     this.setHeader("Content-Type", "application/pdf");
     this.setHeader("Content-Disposition", 'attachment; filename="ticket.pdf"');
