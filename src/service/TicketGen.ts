@@ -3,7 +3,7 @@ import fontkit from "@pdf-lib/fontkit";
 import fs from "fs-extra";
 import path from "path";
 import fetch from "node-fetch";
-
+import sharp from "sharp";
 export interface TicketData {
   plate_number: string;
   plate_province: string;
@@ -214,6 +214,13 @@ export class TicketGenerator {
         imagePath.toLowerCase().endsWith(".jpeg")
       ) {
         image = await pdfDoc.embedJpg(imageBytes);
+      } else if (imagePath.toLowerCase().endsWith(".webp")) {
+        // Convert WebP to PNG first
+        const webpBuffer = await fs.readFile(imagePath);
+        const webpBytes = new Uint8Array(webpBuffer);
+        const pngBuffer = await sharp(webpBytes).toFormat("png").toBuffer();
+        const pngBytes = new Uint8Array(pngBuffer);
+        image = await pdfDoc.embedPng(pngBytes);
       } else {
         throw new Error(`Unsupported image format: ${imagePath}`);
       }
