@@ -1,4 +1,14 @@
-import { Controller, Get, Route, Post, Body, Delete, Put, Tags } from "tsoa";
+import {
+  Controller,
+  Get,
+  Route,
+  Post,
+  Body,
+  Delete,
+  Put,
+  Tags,
+  Security,
+} from "tsoa";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -7,6 +17,7 @@ const prisma = new PrismaClient();
 export class ReportController extends Controller {
   @Post("/createReport")
   @Tags("Officer")
+  @Security("jwt", ["Officer"])
   public async createReport(
     @Body()
     request: {
@@ -102,6 +113,7 @@ export class ReportController extends Controller {
   }
   @Get("/getAllReports")
   @Tags("Administrator")
+  @Security("jwt", ["Administrator"])
   public async getAllReports(): Promise<
     | {
         reports: {
@@ -144,9 +156,8 @@ export class ReportController extends Controller {
 
   @Post("/getReportByOfficerId")
   @Tags("Officer")
-  public async getReportByOfficerId(
-    @Body() request: { id: number }
-  ): Promise<
+  @Security("jwt", ["Officer"])
+  public async getReportByOfficerId(@Body() request: { id: number }): Promise<
     | {
         reports: {
           id: number;
@@ -197,9 +208,8 @@ export class ReportController extends Controller {
   }
   @Post("/getReportById")
   @Tags("Officer", "Administrator")
-  public async getReportById(
-    @Body() request: { id: number }
-  ): Promise<
+  @Security("jwt", ["Officer", "Administrator"])
+  public async getReportById(@Body() request: { id: number }): Promise<
     | {
         report: {
           id: number;
@@ -248,6 +258,7 @@ export class ReportController extends Controller {
 
   @Put("/updateReportById")
   @Tags("Administrator")
+  @Security("jwt", ["Administrator"])
   public async updateReportById(
     @Body() request: { id: number; status?: string }
   ): Promise<
