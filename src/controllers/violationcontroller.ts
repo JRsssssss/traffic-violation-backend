@@ -1,4 +1,14 @@
-import { Controller, Get, Route, Post, Body, Put, Delete, Query } from "tsoa";
+import {
+  Controller,
+  Get,
+  Route,
+  Post,
+  Body,
+  Put,
+  Delete,
+  Query,
+  Tags,
+} from "tsoa";
 import { PrismaClient } from "@prisma/client";
 import { TicketData, TicketGenerator } from "../service/TicketGen";
 import path from "path";
@@ -6,6 +16,7 @@ import path from "path";
 const prisma = new PrismaClient();
 
 @Route("Violation")
+@Tags("Officer", "Admin")
 export class ViolationController extends Controller {
   @Get("/allviolations")
   public async getAllViolations(): Promise<{
@@ -37,6 +48,7 @@ export class ViolationController extends Controller {
   }
 
   @Post("/violationById")
+  @Tags("Officer", "Admin")
   public async getViolationsById(@Body() request: { id: number }): Promise<
     | {
         violation: {
@@ -74,6 +86,7 @@ export class ViolationController extends Controller {
     };
   }
   @Put("/updateViolationById")
+  @Tags("Admin")
   public async updateUserById(
     @Body()
     request: {
@@ -114,6 +127,7 @@ export class ViolationController extends Controller {
   }
 
   @Delete("/deleteViolation")
+  @Tags("Admin")
   public async deleteViolation(@Body() request: { id: number }) {
     const { id } = request;
     try {
@@ -174,6 +188,7 @@ export class ViolationController extends Controller {
   }
 
   @Get("/getTicketFromViolation")
+  @Tags("Officer", "Admin")
   public async getTicketFromViolation(@Query() violationId: number) {
     const ticket = await prisma.violation.findUnique({
       where: { id: violationId },
