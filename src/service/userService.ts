@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { AuthService } from "./authService";
+import argon2 from "argon2";
 
 const prisma = new PrismaClient();
 
@@ -111,11 +112,13 @@ export class UserService {
         return { error: "Username already exists" };
       }
 
+      const hashedPassword = await argon2.hash(password);
+
       const newUser = await prisma.user.create({
         data: {
           name,
           username,
-          password,
+          password: hashedPassword,
           role,
         },
       });
@@ -164,7 +167,9 @@ export class UserService {
         data: {
           name: name ?? existingUser.name,
           username: username ?? existingUser.username,
-          password: password ?? existingUser.password,
+          password: password
+            ? await argon2.hash(password)
+            : existingUser.password,
           role: role ?? existingUser.role,
         },
       });

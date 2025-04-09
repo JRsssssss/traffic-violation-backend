@@ -148,7 +148,7 @@ export class ViolationController extends Controller {
   ) {
     const ticketResult = await violationService.getTicketFromViolation(
       violationId
-    );
+    ); //BUFFER
 
     if ("error" in ticketResult) {
       this.setStatus(404);

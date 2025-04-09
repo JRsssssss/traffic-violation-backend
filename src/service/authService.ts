@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
+import argon2 from "argon2";
 
 const prisma = new PrismaClient();
 const JWT_SECRET =
@@ -47,7 +48,7 @@ export class AuthService {
       where: { username },
     });
 
-    if (!user || user.password !== password) {
+    if (!user || !(await argon2.verify(user.password, password))) {
       return null;
     }
 
