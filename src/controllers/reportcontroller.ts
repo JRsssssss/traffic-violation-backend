@@ -1,4 +1,4 @@
-import { Controller, Get, Route, Post, Body, Delete, Put } from "tsoa";
+import { Controller, Get, Route, Post, Body, Delete, Put, Tags } from "tsoa";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 @Route("Report")
 export class ReportController extends Controller{
     @Post("/createReport")
+    @Tags("Officer")
     public async createReport(@Body() request: {content: string; status: string; violationId: number; 
                                                 officerId: number; includePlate: boolean; includeViolationType: boolean;}): 
                               Promise<| {report: {id: number; content: string; status: string; dateCreated: Date; 
@@ -69,6 +70,7 @@ export class ReportController extends Controller{
         }
     }
     @Get("/getAllReports")
+    @Tags("Admin")
     public async getAllReports(): 
         Promise<{ reports: { id: number; content: string; status: string; dateCreated: Date, officerId: number; 
                             violationId: number; includePlate: boolean; includeViolationType: boolean; }[] } | { error: string }> {
@@ -99,6 +101,7 @@ export class ReportController extends Controller{
     }
 
     @Post("/getReportByOfficerId")
+    @Tags("Officer")
     public async getReportByOfficerId(@Body() request: { id: number }): 
                                 Promise<{ reports: { id: number; content: string; status: string; dateCreated: Date, officerId: number; 
                                                     violationId: number; includePlate: boolean; includeViolationType: boolean; }[] } | { error: string }> {
@@ -138,6 +141,7 @@ export class ReportController extends Controller{
 
     }
     @Post("/getReportById")
+    @Tags("Officer", "Admin")
     public async getReportById(@Body() request: { id: number }): 
                                 Promise<{ report: { id: number; content: string; status: string; dateCreated: Date, officerId: number; 
                                                     violationId: number; includePlate: boolean; includeViolationType: boolean; officerName: string; } } | { error: string }> {
@@ -174,6 +178,7 @@ export class ReportController extends Controller{
     }
 
     @Put("/updateReportById")
+    @Tags("Admin")
     public async updateReportById(@Body() request: { id: number; status?: string}): 
                                     Promise<{ report: { id: number; content: string; status: string; dateCreated: Date, officerId: number; 
                                                     violationId: number; includePlate: boolean; includeViolationType: boolean; officerName: string; } } | { error: string }> {

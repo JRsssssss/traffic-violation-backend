@@ -77,6 +77,10 @@
 						}
 					}
 				},
+				"tags": [
+					"Officer",
+					"Admin"
+				],
 				"security": [],
 				"parameters": []
 			}
@@ -156,6 +160,12 @@
 						}
 					}
 				},
+				"tags": [
+					"Officer",
+					"Admin",
+					"Officer",
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -215,6 +225,11 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin",
+					"Officer",
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -291,6 +306,11 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin",
+					"Officer",
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -405,6 +425,10 @@
 						}
 					}
 				},
+				"tags": [
+					"Officer",
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -482,6 +506,12 @@
 						}
 					}
 				},
+				"tags": [
+					"Officer",
+					"Admin",
+					"Officer",
+					"Admin"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -539,6 +569,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin"
+				],
 				"security": [],
 				"parameters": []
 			}
@@ -606,6 +639,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -688,6 +724,10 @@
 						}
 					}
 				},
+				"tags": [
+					"Officer",
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -773,6 +813,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -870,6 +913,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -945,6 +991,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -1073,6 +1122,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Officer"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -1198,6 +1250,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin"
+				],
 				"security": [],
 				"parameters": []
 			}
@@ -1283,6 +1338,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Officer"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -1388,6 +1446,10 @@
 						}
 					}
 				},
+				"tags": [
+					"Officer",
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -1493,6 +1555,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {

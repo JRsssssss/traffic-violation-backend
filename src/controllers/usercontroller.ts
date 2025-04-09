@@ -6,12 +6,13 @@ const prisma = new PrismaClient();
 @Route("User")
 export class UserController extends Controller {
   @Get("/allusers")
-  @Tags("Officer", "Admin")
+  @Tags("Admin")
   public async getAllUsers() {
     return await prisma.user.findMany();
   }
 
   @Post("/userById")
+  @Tags("Admin")
   public async getUserById(
     @Body() request: { id: number }
   ): Promise<
@@ -49,6 +50,7 @@ export class UserController extends Controller {
   }
 
   @Post("/login")
+  @Tags("Officer", "Admin")
   public async login(
     @Body() request: { username: string; password: string }
   ): Promise<
@@ -82,6 +84,7 @@ export class UserController extends Controller {
   }
 
   @Post("/createUser")
+  @Tags("Admin")
   public async createUser(
     @Body()
     request: {
@@ -133,6 +136,7 @@ export class UserController extends Controller {
   }
 
   @Put("/updateUserById")
+  @Tags("Admin")
   public async updateUserById(
     @Body()
     request: {
@@ -190,6 +194,7 @@ export class UserController extends Controller {
   }
 
   @Delete("/deleteUser")
+  @Tags("Admin")
   public async deleteUser(@Body() request: { userId: number }) {
     const { userId } = request;
     try {
