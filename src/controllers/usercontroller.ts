@@ -9,10 +9,9 @@ import {
   Tags,
   Security,
 } from "tsoa";
-import { PrismaClient } from "@prisma/client";
-import { AuthService } from "../service/authService";
+import { UserService } from "../service/userService";
 
-const prisma = new PrismaClient();
+const userService = new UserService();
 
 @Route("User")
 export class UserController extends Controller {
@@ -20,7 +19,7 @@ export class UserController extends Controller {
   @Tags("Administrator")
   @Security("jwt", ["Administrator"])
   public async getAllUsers() {
-    return await prisma.user.findMany();
+    return await userService.getAllUsers();
   }
 
   @Post("/userById")
@@ -39,25 +38,13 @@ export class UserController extends Controller {
     | { error: string }
   > {
     const { id } = request;
+    const result = await userService.getUserById(id);
 
-    const user = await prisma.user.findUnique({
-      where: { id },
-    });
-
-    if (!user) {
-      this.setStatus(404); // Not Found
-      return { error: "User not found" };
+    if ("error" in result) {
+      this.setStatus(404);
     }
 
-    return {
-      user: {
-        id: user.id,
-        name: user.name,
-        username: user.username,
-        password: user.password,
-        role: user.role,
-      },
-    };
+    return result;
   }
 
   @Post("/login")
@@ -72,33 +59,15 @@ export class UserController extends Controller {
     | { error: string }
   > {
     const { username, password } = request;
+    const result = await userService.login(username, password);
 
-    const authResult = await AuthService.authenticateUser(username, password);
-
-    if (!authResult) {
-      this.setStatus(401);
-      return { error: "Invalid username or password" };
+    if ("error" in result) {
+      this.setStatus(
+        result.error === "Invalid username or password" ? 401 : 500
+      );
     }
 
-    // Get full user data to include name
-    const user = await prisma.user.findUnique({
-      where: { id: authResult.user.id },
-    });
-
-    if (!user) {
-      this.setStatus(500);
-      return { error: "User data not found" };
-    }
-
-    return {
-      user: {
-        id: user.id,
-        name: user.name,
-        username: user.username,
-        role: user.role,
-      },
-      token: authResult.token,
-    };
+    return result;
   }
 
   @Post("/createUser")
@@ -117,41 +86,19 @@ export class UserController extends Controller {
     | { error: string }
   > {
     const { name, username, password, role } = request;
+    const result = await userService.createUser(name, username, password, role);
 
-    if (!name || !username || !password || !role) {
-      this.setStatus(400);
-      return { error: "All fields are required" };
+    if ("error" in result) {
+      this.setStatus(
+        result.error === "All fields are required"
+          ? 400
+          : result.error === "Username already exists"
+          ? 409
+          : 500
+      );
     }
 
-    const existingUser = await prisma.user.findUnique({ where: { username } });
-    if (existingUser) {
-      this.setStatus(409);
-      return { error: "Username already exists" };
-    }
-
-    try {
-      const newUser = await prisma.user.create({
-        data: {
-          name,
-          username,
-          password,
-          role,
-        },
-      });
-
-      return {
-        user: {
-          id: newUser.id,
-          name: newUser.name,
-          username: newUser.username,
-          role: newUser.role,
-        },
-      };
-    } catch (error) {
-      console.error("Error creating user:", error);
-      this.setStatus(500);
-      return { error: "Internal server error" };
-    }
+    return result;
   }
 
   @Put("/updateUserById")
@@ -179,38 +126,19 @@ export class UserController extends Controller {
     | { error: string }
   > {
     const { id, name, username, password, role } = request;
+    const result = await userService.updateUserById(
+      id,
+      name,
+      username,
+      password,
+      role
+    );
 
-    try {
-      const existingUser = await prisma.user.findUnique({ where: { id } });
-
-      if (!existingUser) {
-        this.setStatus(404);
-        return { error: "User not found" };
-      }
-
-      const updatedUser = await prisma.user.update({
-        where: { id },
-        data: {
-          name: name ?? existingUser.name,
-          username: username ?? existingUser.username,
-          password: password ?? existingUser.password,
-          role: role ?? existingUser.role,
-        },
-      });
-
-      return {
-        user: {
-          id: updatedUser.id,
-          name: updatedUser.name,
-          username: updatedUser.username,
-          password: updatedUser.password,
-          role: updatedUser.role,
-        },
-      };
-    } catch (error) {
-      this.setStatus(500);
-      return { error: "An error occurred while updating the user" };
+    if ("error" in result) {
+      this.setStatus(result.error === "User not found" ? 404 : 500);
     }
+
+    return result;
   }
 
   @Delete("/deleteUser")
@@ -218,22 +146,12 @@ export class UserController extends Controller {
   @Security("jwt", ["Administrator"])
   public async deleteUser(@Body() request: { userId: number }) {
     const { userId } = request;
-    try {
-      const existingUser = await prisma.user.findUnique({
-        where: { id: userId },
-      });
+    const result = await userService.deleteUser(userId);
 
-      if (!existingUser) {
-        this.setStatus(404);
-        return { error: "User not found" };
-      }
-
-      await prisma.user.delete({ where: { id: userId } });
-
-      return { message: "User deleted successfully" };
-    } catch (error) {
-      this.setStatus(500);
-      return { error: "An error occurred while deleting the user" };
+    if ("error" in result) {
+      this.setStatus(result.error === "User not found" ? 404 : 500);
     }
+
+    return result;
   }
 }

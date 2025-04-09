@@ -10,11 +10,9 @@ import {
   Tags,
   Security,
 } from "tsoa";
-import { PrismaClient } from "@prisma/client";
-import { TicketData, TicketGenerator } from "../service/TicketGen";
-import path from "path";
+import { ViolationService } from "../service/violationService";
 
-const prisma = new PrismaClient();
+const violationService = new ViolationService();
 
 @Route("Violation")
 @Tags("Officer", "Administrator")
@@ -32,19 +30,7 @@ export class ViolationController extends Controller {
       imageUrl: string[];
     }[];
   }> {
-    const response = await prisma.violation.findMany();
-
-    return {
-      violations: response.map((v) => ({
-        id: v.id,
-        date: v.date,
-        plate: v.plate,
-        type: v.type,
-        location: v.location,
-        details: v.details,
-        imageUrl: v.imageUrl,
-      })),
-    };
+    return await violationService.getAllViolations();
   }
 
   @Post("/violationById")
@@ -65,27 +51,15 @@ export class ViolationController extends Controller {
     | { error: string }
   > {
     const { id } = request;
+    const result = await violationService.getViolationById(id);
 
-    const violation = await prisma.violation.findUnique({
-      where: { id },
-    });
-
-    if (!violation) {
-      return { error: "Violation not found" };
+    if ("error" in result) {
+      this.setStatus(404);
     }
 
-    return {
-      violation: {
-        id: violation.id,
-        date: violation.date,
-        plate: violation.plate,
-        type: violation.type,
-        location: violation.location,
-        details: violation.details,
-        imageUrl: violation.imageUrl,
-      },
-    };
+    return result;
   }
+
   @Put("/updateViolationById")
   @Tags("Administrator")
   @Security("jwt", ["Administrator"])
@@ -100,32 +74,19 @@ export class ViolationController extends Controller {
     }
   ): Promise<{ violation: any } | { error: string }> {
     const { id, date, plate, type, location } = request;
+    const result = await violationService.updateViolationById(
+      id,
+      date,
+      plate,
+      type,
+      location
+    );
 
-    try {
-      const existingViolation = await prisma.violation.findUnique({
-        where: { id },
-      });
-
-      if (!existingViolation) {
-        this.setStatus(404);
-        return { error: "Violation not found" };
-      }
-
-      const updatedViolation = await prisma.violation.update({
-        where: { id },
-        data: {
-          date: date ?? existingViolation.date,
-          plate: plate ?? existingViolation.plate,
-          type: type ?? existingViolation.type,
-          location: location ?? existingViolation.location,
-        },
-      });
-
-      return { violation: updatedViolation };
-    } catch (error) {
-      this.setStatus(500);
-      return { error: "An error occurred while updating the violation" };
+    if ("error" in result) {
+      this.setStatus(result.error === "Violation not found" ? 404 : 500);
     }
+
+    return result;
   }
 
   @Delete("/deleteViolation")
@@ -133,24 +94,13 @@ export class ViolationController extends Controller {
   @Security("jwt", ["Administrator"])
   public async deleteViolation(@Body() request: { id: number }) {
     const { id } = request;
-    try {
-      const existingViolation = await prisma.violation.findUnique({
-        where: { id: id },
-      });
+    const result = await violationService.deleteViolation(id);
 
-      if (!existingViolation) {
-        this.setStatus(404);
-        return { error: "Violaiton not found" };
-      }
-
-      await prisma.violation.delete({ where: { id: id } });
-
-      return { message: "Violation deleted successfully" };
-    } catch (error) {
-      console.log(error);
-      this.setStatus(500);
-      return { error: "An error occurred while deleting the violaiton" };
+    if ("error" in result) {
+      this.setStatus(result.error === "Violation not found" ? 404 : 500);
     }
+
+    return result;
   }
 
   @Post("/addNewViolation")
@@ -167,22 +117,15 @@ export class ViolationController extends Controller {
     }
   ) {
     try {
-      const newViolation = await prisma.violation.create({
-        data: {
-          date: request.date,
-          plate: request.plate,
-          type: request.type,
-          location: request.location,
-          imageUrl: request.imageUrl,
-        },
-      });
-      console.log("New Violation Created");
-      console.log(newViolation);
-
-      return {
-        message: "Violation added successfully",
-        data: newViolation,
-      };
+      const { date, plate, type, location, imageUrl, province } = request;
+      return await violationService.addNewViolation(
+        date,
+        plate,
+        type,
+        location,
+        imageUrl,
+        province
+      );
     } catch (error) {
       console.log(error);
       this.setStatus(500);
@@ -194,42 +137,21 @@ export class ViolationController extends Controller {
   @Tags("Officer", "Administrator")
   @Security("jwt", ["Officer", "Administrator"])
   public async getTicketFromViolation(@Query() violationId: number) {
-    const ticket = await prisma.violation.findUnique({
-      where: { id: violationId },
-    });
-
-    if (!ticket) {
-      this.setStatus(404);
-      return { error: "Ticket not found" };
-    }
-
-    const currentDate = new Date();
-
-    const ticketData: TicketData = {
-      plate_number: ticket.plate,
-      plate_province: ticket.province,
-      kor_har: ticket.type,
-      place: ticket.location,
-      violation_datetime: ticket.date,
-      violation_detail: "DETAIL HERE",
-      ticket_number: ticket.id.toString(),
-      fine: "500",
-      issuer: "สถานีตำรวจที่ตรวจพบ",
-      issue_datetime: currentDate,
-    };
-
-    const ticketGenerator = new TicketGenerator();
-    const ticketBuffer = await ticketGenerator.generateTicketAsBuffer(
-      ticketData,
-      path.join(__dirname, "../assets/ticket_template.pdf")
+    const ticketResult = await violationService.getTicketFromViolation(
+      violationId
     );
+
+    if ("error" in ticketResult) {
+      this.setStatus(404);
+      return ticketResult;
+    }
 
     // Set headers to make browser download the PDF file
     this.setHeader("Content-Type", "application/pdf");
     this.setHeader("Content-Disposition", 'attachment; filename="ticket.pdf"');
-    this.setHeader("Content-Length", ticketBuffer.length.toString());
+    this.setHeader("Content-Length", ticketResult.length.toString());
 
     // Return the raw buffer directly
-    return ticketBuffer;
+    return ticketResult;
   }
 }
