@@ -192,6 +192,8 @@ export class ViolationService {
         ticketData,
         path.join(__dirname, "../assets/ticket_template.pdf")
       );
+
+      // Create a proper Buffer from the Uint8Array
       return Buffer.from(pdfBytes);
     } catch (error) {
       console.error("Error generating ticket:", error);

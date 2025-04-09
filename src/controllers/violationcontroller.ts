@@ -138,9 +138,8 @@ export class ViolationController extends Controller {
   @Tags("Officer", "Administrator")
   @Security("jwt", ["Officer", "Administrator"])
   public async getTicketFromViolation(
-    @Query() violationId: number,
-    @Res() res: any
-  ) {
+    @Query() violationId: number
+  ): Promise<string | { error: string }> {
     const ticketResult = await violationService.getTicketFromViolation(
       violationId
     );
@@ -151,14 +150,10 @@ export class ViolationController extends Controller {
     }
 
     // Set headers to make browser download the PDF file
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", 'attachment; filename="ticket.pdf"');
-    res.setHeader("Content-Length", ticketResult.length);
+    this.setHeader("Content-Type", "application/pdf");
+    this.setHeader("Content-Disposition", 'attachment; filename="ticket.pdf"');
 
-    // Send the binary data directly using res.end
-    res.end(ticketResult);
-
-    // Return a partial response to prevent TSOA from trying to serialize the response
-    return new Promise<void>(() => {});
+    // Convert Buffer to base64 string - the client will need to decode this
+    return (ticketResult as Buffer).toString("base64");
   }
 }

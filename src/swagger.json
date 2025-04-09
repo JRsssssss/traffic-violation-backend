@@ -517,8 +517,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"type": "string",
-											"format": "byte"
+											"type": "string"
 										},
 										{
 											"properties": {
