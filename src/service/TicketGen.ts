@@ -200,6 +200,9 @@ export class TicketGenerator {
         const response = await fetch(imagePath);
         const arrayBuffer = await response.arrayBuffer();
         imageBytes = new Uint8Array(arrayBuffer);
+
+        const pngBuffer = await sharp(imageBytes).toFormat("png").toBuffer();
+        imageBytes = new Uint8Array(pngBuffer);
       } else {
         const imageBuffer = await fs.readFile(imagePath);
         imageBytes = new Uint8Array(imageBuffer);
