@@ -1,13 +1,13 @@
 {
 	"openapi": "3.0.0",
 	"components": {
-		"examples": {},
-		"headers": {},
-		"parameters": {},
-		"requestBodies": {},
-		"responses": {},
-		"schemas": {},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"jwt": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
 	},
 	"info": {
 		"title": "",
@@ -81,7 +81,14 @@
 					"Officer",
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Officer",
+							"Admin"
+						]
+					}
+				],
 				"parameters": []
 			}
 		},
@@ -166,7 +173,14 @@
 					"Officer",
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Officer",
+							"Admin"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -230,7 +244,13 @@
 					"Officer",
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -311,7 +331,13 @@
 					"Officer",
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -429,7 +455,14 @@
 					"Officer",
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Officer",
+							"Admin"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -512,7 +545,14 @@
 					"Officer",
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Officer",
+							"Admin"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "query",
@@ -572,7 +612,13 @@
 				"tags": [
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
 				"parameters": []
 			}
 		},
@@ -642,7 +688,13 @@
 				"tags": [
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -677,6 +729,9 @@
 									"anyOf": [
 										{
 											"properties": {
+												"token": {
+													"type": "string"
+												},
 												"user": {
 													"properties": {
 														"role": {
@@ -703,6 +758,7 @@
 												}
 											},
 											"required": [
+												"token",
 												"user"
 											],
 											"type": "object"
@@ -816,7 +872,13 @@
 				"tags": [
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -916,7 +978,13 @@
 				"tags": [
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -994,7 +1062,13 @@
 				"tags": [
 					"Admin"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"Admin"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1593,6 +1667,11 @@
 		{
 			"url": "https://traffic-violation-backend.onrender.com",
 			"description": "Production server"
+		}
+	],
+	"security": [
+		{
+			"jwt": []
 		}
 	]
 }

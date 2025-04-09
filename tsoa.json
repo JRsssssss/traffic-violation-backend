@@ -1,26 +1,47 @@
 {
-    "entryFile": "src/index.ts",
-    "controllerPathGlobs": ["src/controllers/*.ts"],
+  "entryFile": "src/index.ts",
+  "controllerPathGlobs": ["src/controllers/*.ts"],
+  "spec": {
+    "outputDirectory": "src",
+    "outputFileName": "openapi.yaml",
+    "specVersion": 3,
+    "outputFormat": "yaml",
     "spec": {
-      "outputDirectory": "src",
-      "outputFileName": "openapi.yaml",
-      "specVersion": 3,
-      "outputFormat": "yaml",
-      "spec": {
-        "servers": [
-            {
-            "url": "http://localhost:5000",
-            "description": "Local development server"
-            },
-            {
-            "url": "https://traffic-violation-backend.onrender.com",
-            "description": "Production server"
-            }
-        ]
+      "servers": [
+        {
+          "url": "http://localhost:5000",
+          "description": "Local development server"
+        },
+        {
+          "url": "https://traffic-violation-backend.onrender.com",
+          "description": "Production server"
         }
-    },
-    "routes": {
-      "routesDir": "src/routes"
+      ],
+      "components": {
+        "securitySchemes": {
+          "jwt": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        }
+      },
+      "security": [{ "jwt": [] }]
+    }
+  },
+  "routes": {
+    "routesDir": "src/routes",
+    "authenticationModule": "./src/middleware/authentication.ts"
+  },
+  "securityDefinitions": {
+    "jwt": {
+      "type": "oauth2",
+      "authorizationUrl": "",
+      "flow": "implicit",
+      "scopes": {
+        "Admin": "Admin access",
+        "Officer": "Officer access"
+      }
     }
   }
-  
+}

@@ -1,5 +1,16 @@
-import { Controller, Get, Route, Post, Body, Delete, Put, Tags } from "tsoa";
+import {
+  Controller,
+  Get,
+  Route,
+  Post,
+  Body,
+  Delete,
+  Put,
+  Tags,
+  Security,
+} from "tsoa";
 import { PrismaClient } from "@prisma/client";
+import { AuthService } from "../service/authService";
 
 const prisma = new PrismaClient();
 
@@ -7,15 +18,15 @@ const prisma = new PrismaClient();
 export class UserController extends Controller {
   @Get("/allusers")
   @Tags("Admin")
+  @Security("jwt", ["Admin"])
   public async getAllUsers() {
     return await prisma.user.findMany();
   }
 
   @Post("/userById")
   @Tags("Admin")
-  public async getUserById(
-    @Body() request: { id: number }
-  ): Promise<
+  @Security("jwt", ["Admin"])
+  public async getUserById(@Body() request: { id: number }): Promise<
     | {
         user: {
           id: number;
@@ -54,23 +65,29 @@ export class UserController extends Controller {
   public async login(
     @Body() request: { username: string; password: string }
   ): Promise<
-    | { user: { id: number; name: string; username: string; role: string } }
+    | {
+        user: { id: number; name: string; username: string; role: string };
+        token: string;
+      }
     | { error: string }
   > {
     const { username, password } = request;
 
-    const user = await prisma.user.findUnique({
-      where: { username },
-    });
+    const authResult = await AuthService.authenticateUser(username, password);
 
-    if (!user) {
+    if (!authResult) {
       this.setStatus(401);
       return { error: "Invalid username or password" };
     }
 
-    if (user.password !== password) {
-      this.setStatus(401);
-      return { error: "Invalid username or password" };
+    // Get full user data to include name
+    const user = await prisma.user.findUnique({
+      where: { id: authResult.user.id },
+    });
+
+    if (!user) {
+      this.setStatus(500);
+      return { error: "User data not found" };
     }
 
     return {
@@ -80,11 +97,13 @@ export class UserController extends Controller {
         username: user.username,
         role: user.role,
       },
+      token: authResult.token,
     };
   }
 
   @Post("/createUser")
   @Tags("Admin")
+  @Security("jwt", ["Admin"])
   public async createUser(
     @Body()
     request: {
@@ -137,6 +156,7 @@ export class UserController extends Controller {
 
   @Put("/updateUserById")
   @Tags("Admin")
+  @Security("jwt", ["Admin"])
   public async updateUserById(
     @Body()
     request: {
@@ -195,6 +215,7 @@ export class UserController extends Controller {
 
   @Delete("/deleteUser")
   @Tags("Admin")
+  @Security("jwt", ["Admin"])
   public async deleteUser(@Body() request: { userId: number }) {
     const { userId } = request;
     try {

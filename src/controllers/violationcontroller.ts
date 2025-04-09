@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   Tags,
+  Security,
 } from "tsoa";
 import { PrismaClient } from "@prisma/client";
 import { TicketData, TicketGenerator } from "../service/TicketGen";
@@ -19,6 +20,7 @@ const prisma = new PrismaClient();
 @Tags("Officer", "Admin")
 export class ViolationController extends Controller {
   @Get("/allviolations")
+  @Security("jwt", ["Officer", "Admin"])
   public async getAllViolations(): Promise<{
     violations: {
       id: number;
@@ -47,6 +49,7 @@ export class ViolationController extends Controller {
 
   @Post("/violationById")
   @Tags("Officer", "Admin")
+  @Security("jwt", ["Officer", "Admin"])
   public async getViolationsById(@Body() request: { id: number }): Promise<
     | {
         violation: {
@@ -85,6 +88,7 @@ export class ViolationController extends Controller {
   }
   @Put("/updateViolationById")
   @Tags("Admin")
+  @Security("jwt", ["Admin"])
   public async updateUserById(
     @Body()
     request: {
@@ -126,6 +130,7 @@ export class ViolationController extends Controller {
 
   @Delete("/deleteViolation")
   @Tags("Admin")
+  @Security("jwt", ["Admin"])
   public async deleteViolation(@Body() request: { id: number }) {
     const { id } = request;
     try {
@@ -149,6 +154,7 @@ export class ViolationController extends Controller {
   }
 
   @Post("/addNewViolation")
+  @Security("jwt", ["Officer", "Admin"])
   public async addNewViolation(
     @Body()
     request: {
@@ -186,6 +192,7 @@ export class ViolationController extends Controller {
 
   @Get("/getTicketFromViolation")
   @Tags("Officer", "Admin")
+  @Security("jwt", ["Officer", "Admin"])
   public async getTicketFromViolation(@Query() violationId: number) {
     const ticket = await prisma.violation.findUnique({
       where: { id: violationId },
