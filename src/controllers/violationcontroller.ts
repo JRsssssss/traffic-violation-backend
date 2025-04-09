@@ -9,8 +9,10 @@ import {
   Query,
   Tags,
   Security,
+  Request,
   Res,
 } from "tsoa";
+import express from "express";
 import { ViolationService } from "../service/violationService";
 
 const violationService = new ViolationService();
@@ -138,8 +140,9 @@ export class ViolationController extends Controller {
   @Tags("Officer", "Administrator")
   @Security("jwt", ["Officer", "Administrator"])
   public async getTicketFromViolation(
-    @Query() violationId: number
-  ): Promise<string | { error: string }> {
+    @Query() violationId: number,
+    @Request() request: express.Request
+  ) {
     const ticketResult = await violationService.getTicketFromViolation(
       violationId
     );
@@ -148,12 +151,14 @@ export class ViolationController extends Controller {
       this.setStatus(404);
       return ticketResult;
     }
-
-    // Set headers to make browser download the PDF file
-    this.setHeader("Content-Type", "application/pdf");
-    this.setHeader("Content-Disposition", 'attachment; filename="ticket.pdf"');
-
-    // Convert Buffer to base64 string - the client will need to decode this
-    return (ticketResult as Buffer).toString("base64");
+    const res = request.res;
+    if (res) {
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", 'attachment; filename="ticket.pdf"');
+      res.send(ticketResult);
+    } else {
+      this.setStatus(500);
+      return { error: "Response object is undefined" };
+    }
   }
 }
