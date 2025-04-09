@@ -14,6 +14,7 @@ export class ViolationController extends Controller {
       type: string;
       location: string;
       flagged: string;
+      imageUrl: string[];
     }[];
   }> {
     const response = await prisma.violation.findMany();
@@ -26,6 +27,7 @@ export class ViolationController extends Controller {
         type: v.type,
         location: v.location,
         flagged: v.flagged,
+        imageUrl: v.imageUrl,
       })),
     };
   }
@@ -40,6 +42,7 @@ export class ViolationController extends Controller {
           type: string;
           location: string;
           flagged: string;
+          imageUrl: string[];
         };
       }
     | { error: string }
@@ -62,6 +65,7 @@ export class ViolationController extends Controller {
         type: violation.type,
         location: violation.location,
         flagged: violation.flagged,
+        imageUrl: violation.imageUrl,
       },
     };
   }
@@ -147,6 +151,7 @@ export class ViolationController extends Controller {
           plate: request.plate,
           type: request.type,
           location: request.location,
+          imageUrl: request.imageUrl,
           flagged: "Awaiting Review",
         },
       });
