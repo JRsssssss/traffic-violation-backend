@@ -185,6 +185,8 @@ export class ViolationService {
         fine: "500",
         issuer: "สถานีตำรวจที่ตรวจพบ",
         issue_datetime: currentDate,
+        evidence_1_path: violation.imageUrl[0] ?? undefined,
+        evidence_2_path: violation.imageUrl[1] ?? undefined,
       };
 
       const ticketGenerator = new TicketGenerator();
