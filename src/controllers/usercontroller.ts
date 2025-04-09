@@ -17,15 +17,15 @@ const prisma = new PrismaClient();
 @Route("User")
 export class UserController extends Controller {
   @Get("/allusers")
-  @Tags("Admin")
-  @Security("jwt", ["Admin"])
+  @Tags("Administrator")
+  @Security("jwt", ["Administrator"])
   public async getAllUsers() {
     return await prisma.user.findMany();
   }
 
   @Post("/userById")
-  @Tags("Admin")
-  @Security("jwt", ["Admin"])
+  @Tags("Administrator")
+  @Security("jwt", ["Administrator"])
   public async getUserById(@Body() request: { id: number }): Promise<
     | {
         user: {
@@ -61,7 +61,7 @@ export class UserController extends Controller {
   }
 
   @Post("/login")
-  @Tags("Officer", "Admin")
+  @Tags("Officer", "Administrator")
   public async login(
     @Body() request: { username: string; password: string }
   ): Promise<
@@ -102,8 +102,8 @@ export class UserController extends Controller {
   }
 
   @Post("/createUser")
-  @Tags("Admin")
-  @Security("jwt", ["Admin"])
+  @Tags("Administrator")
+  @Security("jwt", ["Administrator"])
   public async createUser(
     @Body()
     request: {
@@ -155,8 +155,8 @@ export class UserController extends Controller {
   }
 
   @Put("/updateUserById")
-  @Tags("Admin")
-  @Security("jwt", ["Admin"])
+  @Tags("Administrator")
+  @Security("jwt", ["Administrator"])
   public async updateUserById(
     @Body()
     request: {
@@ -214,8 +214,8 @@ export class UserController extends Controller {
   }
 
   @Delete("/deleteUser")
-  @Tags("Admin")
-  @Security("jwt", ["Admin"])
+  @Tags("Administrator")
+  @Security("jwt", ["Administrator"])
   public async deleteUser(@Body() request: { userId: number }) {
     const { userId } = request;
     try {

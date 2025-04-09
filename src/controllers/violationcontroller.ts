@@ -17,10 +17,10 @@ import path from "path";
 const prisma = new PrismaClient();
 
 @Route("Violation")
-@Tags("Officer", "Admin")
+@Tags("Officer", "Administrator")
 export class ViolationController extends Controller {
   @Get("/allviolations")
-  @Security("jwt", ["Officer", "Admin"])
+  @Security("jwt", ["Officer", "Administrator"])
   public async getAllViolations(): Promise<{
     violations: {
       id: number;
@@ -48,8 +48,8 @@ export class ViolationController extends Controller {
   }
 
   @Post("/violationById")
-  @Tags("Officer", "Admin")
-  @Security("jwt", ["Officer", "Admin"])
+  @Tags("Officer", "Administrator")
+  @Security("jwt", ["Officer", "Administrator"])
   public async getViolationsById(@Body() request: { id: number }): Promise<
     | {
         violation: {
@@ -87,8 +87,8 @@ export class ViolationController extends Controller {
     };
   }
   @Put("/updateViolationById")
-  @Tags("Admin")
-  @Security("jwt", ["Admin"])
+  @Tags("Administrator")
+  @Security("jwt", ["Administrator"])
   public async updateUserById(
     @Body()
     request: {
@@ -129,8 +129,8 @@ export class ViolationController extends Controller {
   }
 
   @Delete("/deleteViolation")
-  @Tags("Admin")
-  @Security("jwt", ["Admin"])
+  @Tags("Administrator")
+  @Security("jwt", ["Administrator"])
   public async deleteViolation(@Body() request: { id: number }) {
     const { id } = request;
     try {
@@ -154,7 +154,7 @@ export class ViolationController extends Controller {
   }
 
   @Post("/addNewViolation")
-  @Security("jwt", ["Officer", "Admin"])
+  @Security("jwt", ["Officer", "Administrator"])
   public async addNewViolation(
     @Body()
     request: {
@@ -191,8 +191,8 @@ export class ViolationController extends Controller {
   }
 
   @Get("/getTicketFromViolation")
-  @Tags("Officer", "Admin")
-  @Security("jwt", ["Officer", "Admin"])
+  @Tags("Officer", "Administrator")
+  @Security("jwt", ["Officer", "Administrator"])
   public async getTicketFromViolation(@Query() violationId: number) {
     const ticket = await prisma.violation.findUnique({
       where: { id: violationId },

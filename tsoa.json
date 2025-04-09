@@ -39,7 +39,7 @@
       "authorizationUrl": "",
       "flow": "implicit",
       "scopes": {
-        "Admin": "Admin access",
+        "Administrator": "Admin access",
         "Officer": "Officer access"
       }
     }

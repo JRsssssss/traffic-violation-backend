@@ -1,1677 +1,1497 @@
 {
-	"openapi": "3.0.0",
-	"components": {
-		"securitySchemes": {
-			"jwt": {
-				"type": "http",
-				"scheme": "bearer",
-				"bearerFormat": "JWT"
-			}
-		}
-	},
-	"info": {
-		"title": "",
-		"contact": {}
-	},
-	"paths": {
-		"/Violation/allviolations": {
-			"get": {
-				"operationId": "GetAllViolations",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"violations": {
-											"items": {
-												"properties": {
-													"imageUrl": {
-														"items": {
-															"type": "string"
-														},
-														"type": "array"
-													},
-													"details": {
-														"type": "string"
-													},
-													"location": {
-														"type": "string"
-													},
-													"type": {
-														"type": "string"
-													},
-													"plate": {
-														"type": "string"
-													},
-													"date": {
-														"type": "string",
-														"format": "date-time"
-													},
-													"id": {
-														"type": "number",
-														"format": "double"
-													}
-												},
-												"required": [
-													"imageUrl",
-													"details",
-													"location",
-													"type",
-													"plate",
-													"date",
-													"id"
-												],
-												"type": "object"
-											},
-											"type": "array"
-										}
-									},
-									"required": [
-										"violations"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Officer",
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Officer",
-							"Admin"
-						]
-					}
-				],
-				"parameters": []
-			}
-		},
-		"/Violation/violationById": {
-			"post": {
-				"operationId": "GetViolationsById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"violation": {
-													"properties": {
-														"imageUrl": {
-															"items": {
-																"type": "string"
-															},
-															"type": "array"
-														},
-														"details": {
-															"type": "string"
-														},
-														"location": {
-															"type": "string"
-														},
-														"type": {
-															"type": "string"
-														},
-														"plate": {
-															"type": "string"
-														},
-														"date": {
-															"type": "string",
-															"format": "date-time"
-														},
-														"id": {
-															"type": "number",
-															"format": "double"
-														}
-													},
-													"required": [
-														"imageUrl",
-														"details",
-														"location",
-														"type",
-														"plate",
-														"date",
-														"id"
-													],
-													"type": "object"
-												}
-											},
-											"required": [
-												"violation"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Officer",
-					"Admin",
-					"Officer",
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Officer",
-							"Admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"id": {
-										"type": "number",
-										"format": "double"
-									}
-								},
-								"required": [
-									"id"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/Violation/updateViolationById": {
-			"put": {
-				"operationId": "UpdateUserById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"violation": {}
-											},
-											"required": [
-												"violation"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin",
-					"Officer",
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"location": {
-										"type": "string"
-									},
-									"type": {
-										"type": "string"
-									},
-									"plate": {
-										"type": "string"
-									},
-									"date": {
-										"type": "string",
-										"format": "date-time"
-									},
-									"id": {
-										"type": "number",
-										"format": "double"
-									}
-								},
-								"required": [
-									"id"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/Violation/deleteViolation": {
-			"delete": {
-				"operationId": "DeleteViolation",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"message": {},
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {},
-												"message": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"message"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin",
-					"Officer",
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"id": {
-										"type": "number",
-										"format": "double"
-									}
-								},
-								"required": [
-									"id"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/Violation/addNewViolation": {
-			"post": {
-				"operationId": "AddNewViolation",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"error": {},
-												"data": {
-													"properties": {
-														"officerId": {
-															"type": "number",
-															"format": "double"
-														},
-														"imageUrl": {
-															"items": {
-																"type": "string"
-															},
-															"type": "array"
-														},
-														"details": {
-															"type": "string"
-														},
-														"province": {
-															"type": "string"
-														},
-														"location": {
-															"type": "string"
-														},
-														"type": {
-															"type": "string"
-														},
-														"plate": {
-															"type": "string"
-														},
-														"date": {
-															"type": "string",
-															"format": "date-time"
-														},
-														"id": {
-															"type": "number",
-															"format": "double"
-														}
-													},
-													"required": [
-														"officerId",
-														"imageUrl",
-														"details",
-														"province",
-														"location",
-														"type",
-														"plate",
-														"date",
-														"id"
-													],
-													"type": "object"
-												},
-												"message": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"data",
-												"message"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"data": {},
-												"message": {},
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Officer",
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Officer",
-							"Admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"province": {
-										"type": "string"
-									},
-									"imageUrl": {
-										"items": {
-											"type": "string"
-										},
-										"type": "array"
-									},
-									"location": {
-										"type": "string"
-									},
-									"type": {
-										"type": "string"
-									},
-									"plate": {
-										"type": "string"
-									},
-									"date": {
-										"type": "string",
-										"format": "date-time"
-									}
-								},
-								"required": [
-									"province",
-									"imageUrl",
-									"location",
-									"type",
-									"plate",
-									"date"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/Violation/getTicketFromViolation": {
-			"get": {
-				"operationId": "GetTicketFromViolation",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"type": "string",
-											"format": "byte"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Officer",
-					"Admin",
-					"Officer",
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Officer",
-							"Admin"
-						]
-					}
-				],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "violationId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/User/allusers": {
-			"get": {
-				"operationId": "GetAllUsers",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"properties": {
-											"role": {
-												"type": "string"
-											},
-											"password": {
-												"type": "string"
-											},
-											"username": {
-												"type": "string"
-											},
-											"name": {
-												"type": "string"
-											},
-											"id": {
-												"type": "number",
-												"format": "double"
-											}
-										},
-										"required": [
-											"role",
-											"password",
-											"username",
-											"name",
-											"id"
-										],
-										"type": "object"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
-				"parameters": []
-			}
-		},
-		"/User/userById": {
-			"post": {
-				"operationId": "GetUserById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"user": {
-													"properties": {
-														"role": {
-															"type": "string"
-														},
-														"password": {
-															"type": "string"
-														},
-														"username": {
-															"type": "string"
-														},
-														"name": {
-															"type": "string"
-														},
-														"id": {
-															"type": "number",
-															"format": "double"
-														}
-													},
-													"required": [
-														"role",
-														"password",
-														"username",
-														"name",
-														"id"
-													],
-													"type": "object"
-												}
-											},
-											"required": [
-												"user"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"id": {
-										"type": "number",
-										"format": "double"
-									}
-								},
-								"required": [
-									"id"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/User/login": {
-			"post": {
-				"operationId": "Login",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"token": {
-													"type": "string"
-												},
-												"user": {
-													"properties": {
-														"role": {
-															"type": "string"
-														},
-														"username": {
-															"type": "string"
-														},
-														"name": {
-															"type": "string"
-														},
-														"id": {
-															"type": "number",
-															"format": "double"
-														}
-													},
-													"required": [
-														"role",
-														"username",
-														"name",
-														"id"
-													],
-													"type": "object"
-												}
-											},
-											"required": [
-												"token",
-												"user"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Officer",
-					"Admin"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"password": {
-										"type": "string"
-									},
-									"username": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"password",
-									"username"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/User/createUser": {
-			"post": {
-				"operationId": "CreateUser",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"user": {
-													"properties": {
-														"role": {
-															"type": "string"
-														},
-														"username": {
-															"type": "string"
-														},
-														"name": {
-															"type": "string"
-														},
-														"id": {
-															"type": "number",
-															"format": "double"
-														}
-													},
-													"required": [
-														"role",
-														"username",
-														"name",
-														"id"
-													],
-													"type": "object"
-												}
-											},
-											"required": [
-												"user"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"role": {
-										"type": "string"
-									},
-									"password": {
-										"type": "string"
-									},
-									"username": {
-										"type": "string"
-									},
-									"name": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"role",
-									"password",
-									"username",
-									"name"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/User/updateUserById": {
-			"put": {
-				"operationId": "UpdateUserById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"user": {
-													"properties": {
-														"role": {
-															"type": "string"
-														},
-														"password": {
-															"type": "string"
-														},
-														"username": {
-															"type": "string"
-														},
-														"name": {
-															"type": "string"
-														},
-														"id": {
-															"type": "number",
-															"format": "double"
-														}
-													},
-													"required": [
-														"role",
-														"password",
-														"username",
-														"name",
-														"id"
-													],
-													"type": "object"
-												}
-											},
-											"required": [
-												"user"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"role": {
-										"type": "string"
-									},
-									"password": {
-										"type": "string"
-									},
-									"username": {
-										"type": "string"
-									},
-									"name": {
-										"type": "string"
-									},
-									"id": {
-										"type": "number",
-										"format": "double"
-									}
-								},
-								"required": [
-									"id"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/User/deleteUser": {
-			"delete": {
-				"operationId": "DeleteUser",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"message": {},
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {},
-												"message": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"message"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [
-					{
-						"jwt": [
-							"Admin"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"userId": {
-										"type": "number",
-										"format": "double"
-									}
-								},
-								"required": [
-									"userId"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/hello": {
-			"get": {
-				"operationId": "SayHello",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"message"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/Report/createReport": {
-			"post": {
-				"operationId": "CreateReport",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"report": {
-													"properties": {
-														"includeViolationType": {
-															"type": "boolean"
-														},
-														"includePlate": {
-															"type": "boolean"
-														},
-														"violationId": {
-															"type": "number",
-															"format": "double"
-														},
-														"officerId": {
-															"type": "number",
-															"format": "double"
-														},
-														"dateCreated": {
-															"type": "string",
-															"format": "date-time"
-														},
-														"status": {
-															"type": "string"
-														},
-														"content": {
-															"type": "string"
-														},
-														"id": {
-															"type": "number",
-															"format": "double"
-														}
-													},
-													"required": [
-														"includeViolationType",
-														"includePlate",
-														"violationId",
-														"officerId",
-														"dateCreated",
-														"status",
-														"content",
-														"id"
-													],
-													"type": "object"
-												}
-											},
-											"required": [
-												"report"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Officer"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"includeViolationType": {
-										"type": "boolean"
-									},
-									"includePlate": {
-										"type": "boolean"
-									},
-									"officerId": {
-										"type": "number",
-										"format": "double"
-									},
-									"violationId": {
-										"type": "number",
-										"format": "double"
-									},
-									"status": {
-										"type": "string"
-									},
-									"content": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"includeViolationType",
-									"includePlate",
-									"officerId",
-									"violationId",
-									"status",
-									"content"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/Report/getAllReports": {
-			"get": {
-				"operationId": "GetAllReports",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"reports": {
-													"items": {
-														"properties": {
-															"includeViolationType": {
-																"type": "boolean"
-															},
-															"includePlate": {
-																"type": "boolean"
-															},
-															"violationId": {
-																"type": "number",
-																"format": "double"
-															},
-															"officerId": {
-																"type": "number",
-																"format": "double"
-															},
-															"dateCreated": {
-																"type": "string",
-																"format": "date-time"
-															},
-															"status": {
-																"type": "string"
-															},
-															"content": {
-																"type": "string"
-															},
-															"id": {
-																"type": "number",
-																"format": "double"
-															}
-														},
-														"required": [
-															"includeViolationType",
-															"includePlate",
-															"violationId",
-															"officerId",
-															"dateCreated",
-															"status",
-															"content",
-															"id"
-														],
-														"type": "object"
-													},
-													"type": "array"
-												}
-											},
-											"required": [
-												"reports"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/Report/getReportByOfficerId": {
-			"post": {
-				"operationId": "GetReportByOfficerId",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"reports": {
-													"items": {
-														"properties": {
-															"includeViolationType": {
-																"type": "boolean"
-															},
-															"includePlate": {
-																"type": "boolean"
-															},
-															"violationId": {
-																"type": "number",
-																"format": "double"
-															},
-															"officerId": {
-																"type": "number",
-																"format": "double"
-															},
-															"dateCreated": {
-																"type": "string",
-																"format": "date-time"
-															},
-															"status": {
-																"type": "string"
-															},
-															"content": {
-																"type": "string"
-															},
-															"id": {
-																"type": "number",
-																"format": "double"
-															}
-														},
-														"required": [
-															"includeViolationType",
-															"includePlate",
-															"violationId",
-															"officerId",
-															"dateCreated",
-															"status",
-															"content",
-															"id"
-														],
-														"type": "object"
-													},
-													"type": "array"
-												}
-											},
-											"required": [
-												"reports"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Officer"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"id": {
-										"type": "number",
-										"format": "double"
-									}
-								},
-								"required": [
-									"id"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/Report/getReportById": {
-			"post": {
-				"operationId": "GetReportById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"report": {
-													"properties": {
-														"officerName": {
-															"type": "string"
-														},
-														"includeViolationType": {
-															"type": "boolean"
-														},
-														"includePlate": {
-															"type": "boolean"
-														},
-														"violationId": {
-															"type": "number",
-															"format": "double"
-														},
-														"officerId": {
-															"type": "number",
-															"format": "double"
-														},
-														"dateCreated": {
-															"type": "string",
-															"format": "date-time"
-														},
-														"status": {
-															"type": "string"
-														},
-														"content": {
-															"type": "string"
-														},
-														"id": {
-															"type": "number",
-															"format": "double"
-														}
-													},
-													"required": [
-														"officerName",
-														"includeViolationType",
-														"includePlate",
-														"violationId",
-														"officerId",
-														"dateCreated",
-														"status",
-														"content",
-														"id"
-													],
-													"type": "object"
-												}
-											},
-											"required": [
-												"report"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Officer",
-					"Admin"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"id": {
-										"type": "number",
-										"format": "double"
-									}
-								},
-								"required": [
-									"id"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/Report/updateReportById": {
-			"put": {
-				"operationId": "UpdateReportById",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"report": {
-													"properties": {
-														"officerName": {
-															"type": "string"
-														},
-														"includeViolationType": {
-															"type": "boolean"
-														},
-														"includePlate": {
-															"type": "boolean"
-														},
-														"violationId": {
-															"type": "number",
-															"format": "double"
-														},
-														"officerId": {
-															"type": "number",
-															"format": "double"
-														},
-														"dateCreated": {
-															"type": "string",
-															"format": "date-time"
-														},
-														"status": {
-															"type": "string"
-														},
-														"content": {
-															"type": "string"
-														},
-														"id": {
-															"type": "number",
-															"format": "double"
-														}
-													},
-													"required": [
-														"officerName",
-														"includeViolationType",
-														"includePlate",
-														"violationId",
-														"officerId",
-														"dateCreated",
-														"status",
-														"content",
-														"id"
-													],
-													"type": "object"
-												}
-											},
-											"required": [
-												"report"
-											],
-											"type": "object"
-										},
-										{
-											"properties": {
-												"error": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"error"
-											],
-											"type": "object"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Admin"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"status": {
-										"type": "string"
-									},
-									"id": {
-										"type": "number",
-										"format": "double"
-									}
-								},
-								"required": [
-									"id"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		}
-	},
-	"servers": [
-		{
-			"url": "http://localhost:5000",
-			"description": "Local development server"
-		},
-		{
-			"url": "https://traffic-violation-backend.onrender.com",
-			"description": "Production server"
-		}
-	],
-	"security": [
-		{
-			"jwt": []
-		}
-	]
+  "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "info": {
+    "title": "",
+    "contact": {}
+  },
+  "paths": {
+    "/Violation/allviolations": {
+      "get": {
+        "operationId": "GetAllViolations",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "violations": {
+                      "items": {
+                        "properties": {
+                          "imageUrl": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "details": {
+                            "type": "string"
+                          },
+                          "location": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "plate": {
+                            "type": "string"
+                          },
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "id": {
+                            "type": "number",
+                            "format": "double"
+                          }
+                        },
+                        "required": [
+                          "imageUrl",
+                          "details",
+                          "location",
+                          "type",
+                          "plate",
+                          "date",
+                          "id"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": ["violations"],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Officer", "Administrator"],
+        "security": [
+          {
+            "jwt": ["Officer", "Administrator"]
+          }
+        ],
+        "parameters": []
+      }
+    },
+    "/Violation/violationById": {
+      "post": {
+        "operationId": "GetViolationsById",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "violation": {
+                          "properties": {
+                            "imageUrl": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            },
+                            "details": {
+                              "type": "string"
+                            },
+                            "location": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "plate": {
+                              "type": "string"
+                            },
+                            "date": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "id": {
+                              "type": "number",
+                              "format": "double"
+                            }
+                          },
+                          "required": [
+                            "imageUrl",
+                            "details",
+                            "location",
+                            "type",
+                            "plate",
+                            "date",
+                            "id"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": ["violation"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Officer", "Administrator", "Officer", "Administrator"],
+        "security": [
+          {
+            "jwt": ["Officer", "Administrator"]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "format": "double"
+                  }
+                },
+                "required": ["id"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Violation/updateViolationById": {
+      "put": {
+        "operationId": "UpdateUserById",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "violation": {}
+                      },
+                      "required": ["violation"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Administrator", "Officer", "Administrator"],
+        "security": [
+          {
+            "jwt": ["Administrator"]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "location": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "plate": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "id": {
+                    "type": "number",
+                    "format": "double"
+                  }
+                },
+                "required": ["id"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Violation/deleteViolation": {
+      "delete": {
+        "operationId": "DeleteViolation",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "message": {},
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {},
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["message"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Administrator", "Officer", "Administrator"],
+        "security": [
+          {
+            "jwt": ["Administrator"]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "format": "double"
+                  }
+                },
+                "required": ["id"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Violation/addNewViolation": {
+      "post": {
+        "operationId": "AddNewViolation",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "error": {},
+                        "data": {
+                          "properties": {
+                            "officerId": {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            "imageUrl": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            },
+                            "details": {
+                              "type": "string"
+                            },
+                            "province": {
+                              "type": "string"
+                            },
+                            "location": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "plate": {
+                              "type": "string"
+                            },
+                            "date": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "id": {
+                              "type": "number",
+                              "format": "double"
+                            }
+                          },
+                          "required": [
+                            "officerId",
+                            "imageUrl",
+                            "details",
+                            "province",
+                            "location",
+                            "type",
+                            "plate",
+                            "date",
+                            "id"
+                          ],
+                          "type": "object"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["data", "message"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "data": {},
+                        "message": {},
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Officer", "Administrator"],
+        "security": [
+          {
+            "jwt": ["Officer", "Administrator"]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "province": {
+                    "type": "string"
+                  },
+                  "imageUrl": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "plate": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "required": [
+                  "province",
+                  "imageUrl",
+                  "location",
+                  "type",
+                  "plate",
+                  "date"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Violation/getTicketFromViolation": {
+      "get": {
+        "operationId": "GetTicketFromViolation",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "byte"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Officer", "Administrator", "Officer", "Administrator"],
+        "security": [
+          {
+            "jwt": ["Officer", "Administrator"]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "violationId",
+            "required": true,
+            "schema": {
+              "format": "double",
+              "type": "number"
+            }
+          }
+        ]
+      }
+    },
+    "/User/allusers": {
+      "get": {
+        "operationId": "GetAllUsers",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "role": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      },
+                      "username": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "number",
+                        "format": "double"
+                      }
+                    },
+                    "required": ["role", "password", "username", "name", "id"],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Administrator"],
+        "security": [
+          {
+            "jwt": ["Administrator"]
+          }
+        ],
+        "parameters": []
+      }
+    },
+    "/User/userById": {
+      "post": {
+        "operationId": "GetUserById",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "user": {
+                          "properties": {
+                            "role": {
+                              "type": "string"
+                            },
+                            "password": {
+                              "type": "string"
+                            },
+                            "username": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number",
+                              "format": "double"
+                            }
+                          },
+                          "required": [
+                            "role",
+                            "password",
+                            "username",
+                            "name",
+                            "id"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": ["user"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Administrator"],
+        "security": [
+          {
+            "jwt": ["Administrator"]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "format": "double"
+                  }
+                },
+                "required": ["id"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/User/login": {
+      "post": {
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "token": {
+                          "type": "string"
+                        },
+                        "user": {
+                          "properties": {
+                            "role": {
+                              "type": "string"
+                            },
+                            "username": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number",
+                              "format": "double"
+                            }
+                          },
+                          "required": ["role", "username", "name", "id"],
+                          "type": "object"
+                        }
+                      },
+                      "required": ["token", "user"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Officer", "Administrator"],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  }
+                },
+                "required": ["password", "username"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/User/createUser": {
+      "post": {
+        "operationId": "CreateUser",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "user": {
+                          "properties": {
+                            "role": {
+                              "type": "string"
+                            },
+                            "username": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number",
+                              "format": "double"
+                            }
+                          },
+                          "required": ["role", "username", "name", "id"],
+                          "type": "object"
+                        }
+                      },
+                      "required": ["user"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Administrator"],
+        "security": [
+          {
+            "jwt": ["Administrator"]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "role": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": ["role", "password", "username", "name"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/User/updateUserById": {
+      "put": {
+        "operationId": "UpdateUserById",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "user": {
+                          "properties": {
+                            "role": {
+                              "type": "string"
+                            },
+                            "password": {
+                              "type": "string"
+                            },
+                            "username": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number",
+                              "format": "double"
+                            }
+                          },
+                          "required": [
+                            "role",
+                            "password",
+                            "username",
+                            "name",
+                            "id"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": ["user"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Administrator"],
+        "security": [
+          {
+            "jwt": ["Administrator"]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "role": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "number",
+                    "format": "double"
+                  }
+                },
+                "required": ["id"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/User/deleteUser": {
+      "delete": {
+        "operationId": "DeleteUser",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "message": {},
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {},
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["message"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Administrator"],
+        "security": [
+          {
+            "jwt": ["Administrator"]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "userId": {
+                    "type": "number",
+                    "format": "double"
+                  }
+                },
+                "required": ["userId"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hello": {
+      "get": {
+        "operationId": "SayHello",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["message"],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "parameters": []
+      }
+    },
+    "/Report/createReport": {
+      "post": {
+        "operationId": "CreateReport",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "report": {
+                          "properties": {
+                            "includeViolationType": {
+                              "type": "boolean"
+                            },
+                            "includePlate": {
+                              "type": "boolean"
+                            },
+                            "violationId": {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            "officerId": {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            "dateCreated": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "status": {
+                              "type": "string"
+                            },
+                            "content": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number",
+                              "format": "double"
+                            }
+                          },
+                          "required": [
+                            "includeViolationType",
+                            "includePlate",
+                            "violationId",
+                            "officerId",
+                            "dateCreated",
+                            "status",
+                            "content",
+                            "id"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": ["report"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Officer"],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "includeViolationType": {
+                    "type": "boolean"
+                  },
+                  "includePlate": {
+                    "type": "boolean"
+                  },
+                  "officerId": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "violationId": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "includeViolationType",
+                  "includePlate",
+                  "officerId",
+                  "violationId",
+                  "status",
+                  "content"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Report/getAllReports": {
+      "get": {
+        "operationId": "GetAllReports",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "reports": {
+                          "items": {
+                            "properties": {
+                              "includeViolationType": {
+                                "type": "boolean"
+                              },
+                              "includePlate": {
+                                "type": "boolean"
+                              },
+                              "violationId": {
+                                "type": "number",
+                                "format": "double"
+                              },
+                              "officerId": {
+                                "type": "number",
+                                "format": "double"
+                              },
+                              "dateCreated": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "status": {
+                                "type": "string"
+                              },
+                              "content": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "number",
+                                "format": "double"
+                              }
+                            },
+                            "required": [
+                              "includeViolationType",
+                              "includePlate",
+                              "violationId",
+                              "officerId",
+                              "dateCreated",
+                              "status",
+                              "content",
+                              "id"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": ["reports"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Administrator"],
+        "security": [],
+        "parameters": []
+      }
+    },
+    "/Report/getReportByOfficerId": {
+      "post": {
+        "operationId": "GetReportByOfficerId",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "reports": {
+                          "items": {
+                            "properties": {
+                              "includeViolationType": {
+                                "type": "boolean"
+                              },
+                              "includePlate": {
+                                "type": "boolean"
+                              },
+                              "violationId": {
+                                "type": "number",
+                                "format": "double"
+                              },
+                              "officerId": {
+                                "type": "number",
+                                "format": "double"
+                              },
+                              "dateCreated": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "status": {
+                                "type": "string"
+                              },
+                              "content": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "number",
+                                "format": "double"
+                              }
+                            },
+                            "required": [
+                              "includeViolationType",
+                              "includePlate",
+                              "violationId",
+                              "officerId",
+                              "dateCreated",
+                              "status",
+                              "content",
+                              "id"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": ["reports"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Officer"],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "format": "double"
+                  }
+                },
+                "required": ["id"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Report/getReportById": {
+      "post": {
+        "operationId": "GetReportById",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "report": {
+                          "properties": {
+                            "officerName": {
+                              "type": "string"
+                            },
+                            "includeViolationType": {
+                              "type": "boolean"
+                            },
+                            "includePlate": {
+                              "type": "boolean"
+                            },
+                            "violationId": {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            "officerId": {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            "dateCreated": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "status": {
+                              "type": "string"
+                            },
+                            "content": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number",
+                              "format": "double"
+                            }
+                          },
+                          "required": [
+                            "officerName",
+                            "includeViolationType",
+                            "includePlate",
+                            "violationId",
+                            "officerId",
+                            "dateCreated",
+                            "status",
+                            "content",
+                            "id"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": ["report"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Officer", "Administrator"],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "format": "double"
+                  }
+                },
+                "required": ["id"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Report/updateReportById": {
+      "put": {
+        "operationId": "UpdateReportById",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "report": {
+                          "properties": {
+                            "officerName": {
+                              "type": "string"
+                            },
+                            "includeViolationType": {
+                              "type": "boolean"
+                            },
+                            "includePlate": {
+                              "type": "boolean"
+                            },
+                            "violationId": {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            "officerId": {
+                              "type": "number",
+                              "format": "double"
+                            },
+                            "dateCreated": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "status": {
+                              "type": "string"
+                            },
+                            "content": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number",
+                              "format": "double"
+                            }
+                          },
+                          "required": [
+                            "officerName",
+                            "includeViolationType",
+                            "includePlate",
+                            "violationId",
+                            "officerId",
+                            "dateCreated",
+                            "status",
+                            "content",
+                            "id"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": ["report"],
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["error"],
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Administrator"],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "status": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "number",
+                    "format": "double"
+                  }
+                },
+                "required": ["id"],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://traffic-violation-backend.onrender.com",
+      "description": "Production server"
+    }
+  ],
+  "security": [
+    {
+      "jwt": []
+    }
+  ]
 }
