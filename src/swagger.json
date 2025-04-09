@@ -33,9 +33,6 @@
 														},
 														"type": "array"
 													},
-													"details": {
-														"type": "string"
-													},
 													"flagged": {
 														"type": "string"
 													},
@@ -59,7 +56,6 @@
 												},
 												"required": [
 													"imageUrl",
-													"details",
 													"flagged",
 													"location",
 													"type",
@@ -105,9 +101,6 @@
 															},
 															"type": "array"
 														},
-														"details": {
-															"type": "string"
-														},
 														"flagged": {
 															"type": "string"
 														},
@@ -131,7 +124,6 @@
 													},
 													"required": [
 														"imageUrl",
-														"details",
 														"flagged",
 														"location",
 														"type",
@@ -347,9 +339,6 @@
 															},
 															"type": "array"
 														},
-														"details": {
-															"type": "string"
-														},
 														"province": {
 															"type": "string"
 														},
@@ -377,7 +366,6 @@
 													"required": [
 														"officerId",
 														"imageUrl",
-														"details",
 														"province",
 														"flagged",
 														"location",
@@ -461,6 +449,51 @@
 						}
 					}
 				}
+			}
+		},
+		"/Violation/getTicketFromViolation": {
+			"get": {
+				"operationId": "GetTicketFromViolation",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "string",
+											"format": "byte"
+										},
+										{
+											"properties": {
+												"error": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"error"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "violationId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/User/allusers": {

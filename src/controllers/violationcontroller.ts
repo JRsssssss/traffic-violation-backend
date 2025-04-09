@@ -1,5 +1,7 @@
-import { Controller, Get, Route, Post, Body, Put, Delete } from "tsoa";
+import { Controller, Get, Route, Post, Body, Put, Delete, Query } from "tsoa";
 import { PrismaClient } from "@prisma/client";
+import { TicketData, TicketGenerator } from "../service/TicketGen";
+import path from "path";
 
 const prisma = new PrismaClient();
 
@@ -44,7 +46,6 @@ export class ViolationController extends Controller {
           type: string;
           location: string;
           flagged: string;
-          details: string;
           imageUrl: string[];
         };
       }
@@ -68,7 +69,6 @@ export class ViolationController extends Controller {
         type: violation.type,
         location: violation.location,
         flagged: violation.flagged,
-        details: violation.details,
         imageUrl: violation.imageUrl,
       },
     };
@@ -171,5 +171,46 @@ export class ViolationController extends Controller {
       this.setStatus(500);
       return { error: "Error while adding violation" };
     }
+  }
+
+  @Get("/getTicketFromViolation")
+  public async getTicketFromViolation(@Query() violationId: number) {
+    const ticket = await prisma.violation.findUnique({
+      where: { id: violationId },
+    });
+
+    if (!ticket) {
+      this.setStatus(404);
+      return { error: "Ticket not found" };
+    }
+
+    const currentDate = new Date();
+
+    const ticketData: TicketData = {
+      plate_number: ticket.plate,
+      plate_province: ticket.province,
+      kor_har: ticket.type,
+      place: ticket.location,
+      violation_datetime: ticket.date,
+      violation_detail: "DETAIL HERE",
+      ticket_number: ticket.id.toString(),
+      fine: "500",
+      issuer: "สถานีตำรวจที่ตรวจพบ",
+      issue_datetime: currentDate,
+    };
+
+    const ticketGenerator = new TicketGenerator();
+    const ticketBuffer = await ticketGenerator.generateTicketAsBuffer(
+      ticketData,
+      path.join(__dirname, "../assets/ticket_template.pdf")
+    );
+
+    // Set headers to make browser download the PDF file
+    this.setHeader("Content-Type", "application/pdf");
+    this.setHeader("Content-Disposition", 'attachment; filename="ticket.pdf"');
+    this.setHeader("Content-Length", ticketBuffer.length.toString());
+
+    // Return the raw buffer directly
+    return ticketBuffer;
   }
 }

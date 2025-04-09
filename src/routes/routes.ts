@@ -184,6 +184,36 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsViolationController_getTicketFromViolation: Record<string, TsoaRoute.ParameterSchema> = {
+                violationId: {"in":"query","name":"violationId","required":true,"dataType":"double"},
+        };
+        app.get('/Violation/getTicketFromViolation',
+            ...(fetchMiddlewares<RequestHandler>(ViolationController)),
+            ...(fetchMiddlewares<RequestHandler>(ViolationController.prototype.getTicketFromViolation)),
+
+            async function ViolationController_getTicketFromViolation(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsViolationController_getTicketFromViolation, request, response });
+
+                const controller = new ViolationController();
+
+              await templateService.apiHandler({
+                methodName: 'getTicketFromViolation',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_getAllUsers: Record<string, TsoaRoute.ParameterSchema> = {
         };
         app.get('/User/allusers',
