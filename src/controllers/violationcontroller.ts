@@ -107,7 +107,7 @@ export class ViolationController extends Controller {
   }
 
   @Post("/addNewViolation")
-  @Security("jwt", ["Officer", "Administrator"])
+  // @Security("jwt", ["Officer", "Administrator"])
   public async addNewViolation(
     @Body()
     request: {
