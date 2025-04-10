@@ -146,8 +146,16 @@ export class ViolationController extends Controller {
     @Query() violationId: number,
     @Request() request: express.Request
   ) {
+    const userId = request.user?.id;
+
+    if (!userId) {
+      this.setStatus(401);
+      return { error: "User not authenticated or missing user ID" };
+    }
+
     const ticketResult = await violationService.getTicketFromViolation(
-      violationId
+      violationId,
+      userId
     ); //BUFFER
 
     if ("error" in ticketResult) {

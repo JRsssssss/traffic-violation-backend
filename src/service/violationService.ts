@@ -163,9 +163,17 @@ export class ViolationService {
   }
 
   public async getTicketFromViolation(
-    violationId: number
+    violationId: number,
+    userId: number
   ): Promise<Buffer | { error: string }> {
     try {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+
+      if (!user) {
+        return { error: "User not found" };
+      }
       const violation = await prisma.violation.findUnique({
         where: { id: violationId },
         include: {
@@ -188,7 +196,7 @@ export class ViolationService {
         violation_detail: violation.details,
         ticket_number: violation.id.toString(),
         fine: "500",
-        issuer: violation.officer?.name || "Unknown Officer",
+        issuer: user.name || "Unknown Officer",
         issue_datetime: currentDate,
         evidence_1_path: violation.imageUrl[0] ?? undefined,
         evidence_2_path: violation.imageUrl[1] ?? undefined,
